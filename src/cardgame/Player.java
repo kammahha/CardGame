@@ -33,7 +33,7 @@ public class Player {
 
     public void giveCard(Deck deckRight) {
         for (int i = 0; i < hand.size(); i++ ){
-            if(!hand.get(i).equals(id)){
+            if(!((hand.get(i).value) == (id+1))) {
                 Card removeCard = hand.remove(i); // we need to apply strategy here
                 deckRight.dHand.add(removeCard);
                 System.out.println("Player " + id + " discards a " + removeCard.value + " from deck " + id+1);
@@ -43,10 +43,10 @@ public class Player {
     }
     public boolean checkHand() {
         boolean won = false;
-        if (hand.get(0) == hand.get(1) && hand.get(0) == hand.get(2) && hand.get(0) == hand.get(3)) {
+        if (hand.get(0).value == hand.get(1).value && hand.get(0).value == hand.get(2).value && hand.get(0).value == hand.get(3).value) {
             won = true;
         }
-        System.out.println("Player " + id + "current hand is " + hand.get(0) + hand.get(1) + hand.get(2) + hand.get(3));
+        System.out.println("Player " + id + "current hand is " + hand.get(0).value + hand.get(1).value + hand.get(2).value + hand.get(3).value);
         return won;
     }
 }

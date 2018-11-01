@@ -6,7 +6,7 @@ public class Taster {
     public static void main(String[] args){
         ArrayList<Card> List = new  ArrayList<Card>();
         Card c1 = new Card(1);
-        Card c2 = new Card(82);
+        Card c2 = new Card(1);
         Card c3 = new Card(67);
         Card c4 = new Card(5);
         Card c5 = new Card(32);
@@ -18,6 +18,8 @@ public class Taster {
         List.add(c4);
         List.add(c5);
         List.add(c6);
+
+        System.out.println(c1.equals("1"));
 
 //        for (int i = 0; i < List.size(); i++){
 //            System.out.println("Number: " + List.get(i));
