@@ -40,6 +40,11 @@ public class Player {
         // check hand
         System.out.println("Player " + id + "current hand is " + hand.get(0) + hand.get(1) + hand.get(2) + hand.get(3));
     }
+
+    public void taster ()
+    {
+        //random comment hello
+    }
 }
 
 
