@@ -38,15 +38,17 @@ public class Player {
                 deckRight.dHand.add(removeCard);
                 System.out.println("Player " + id + " discards a " + removeCard.value + " from deck " + id+1);
                 break;
-
             }
         }
-
     }
-    public void checkHand(){
-        // check hand
+    public boolean checkHand() {
+        boolean won = false;
+        if (hand.get(0) == hand.get(1) && hand.get(0) == hand.get(2) && hand.get(0) == hand.get(3)) {
+            won = true;
+        }
         System.out.println("Player " + id + "current hand is " + hand.get(0) + hand.get(1) + hand.get(2) + hand.get(3));
+        return won;
     }
-
 }
+
 

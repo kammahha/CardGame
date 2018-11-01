@@ -14,15 +14,13 @@ public class Deck {
 
     public void setInitialHand(Card c1, Card c2, Card c3, Card c4){
         dHand.add(c1);
-        dHand.add(c1);
-        dHand.add(c1);
-        dHand.add(c1);
+        dHand.add(c2);
+        dHand.add(c3);
+        dHand.add(c4);
     }
 
     public ArrayList<Card> getHand()
     {
         return dHand;
     }
-
-
 }
