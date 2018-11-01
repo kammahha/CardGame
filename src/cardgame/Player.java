@@ -15,9 +15,9 @@ public class Player {
 
     public void setInitialHand(Card c1, Card c2, Card c3, Card c4){
         hand.add(c1);
-        hand.add(c1);
-        hand.add(c1);
-        hand.add(c1);
+        hand.add(c2);
+        hand.add(c3);
+        hand.add(c4);
     }
 
     public ArrayList<Card> getHand()
@@ -32,19 +32,21 @@ public class Player {
     }
 
     public void giveCard(Deck deckRight) {
-        Card removeCard = hand.remove(0); // we need to apply strategy here
-        deckRight.dHand.add(removeCard);
-        System.out.println("Player " + id + " discards a " + removeCard.value + " from deck " + id);
+        for (int i = 0; i < hand.size(); i++ ){
+            if(!hand.get(i).equals(id)){
+                Card removeCard = hand.remove(i); // we need to apply strategy here
+                deckRight.dHand.add(removeCard);
+                System.out.println("Player " + id + " discards a " + removeCard.value + " from deck " + id+1);
+                break;
+
+            }
+        }
+
     }
     public void checkHand(){
         // check hand
         System.out.println("Player " + id + "current hand is " + hand.get(0) + hand.get(1) + hand.get(2) + hand.get(3));
     }
 
-    public void taster ()
-    {
-        //random comment hello
-    }
 }
-
 
