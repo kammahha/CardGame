@@ -57,22 +57,15 @@ public class CardGame {
         }
         //hello this is a try
 
-
-
-
+//            private static void CardDistribution(int cards[], int noofCards, int n){
+//                int player[] = new int[n];
+//                int playerCards [] = new int[4];
+//
+//                for (int index = 0; index <=noofCards; index++){
+//                    for (int i = 0; player[i] < 4; i++){
+//
+//                    }
+//                }
+//            }
     }
-
-    private static void CardDistribution(int cards[], int noofCards, int n){
-        int player[] = new int[n];
-        int playerCards [] = new int[4];
-
-        for (int index = 0; index <=noofCards; index++){
-            for (int i = 0; player[i] < 4; i++){
-
-            }
-
-        }
-
-    }
-
 }
