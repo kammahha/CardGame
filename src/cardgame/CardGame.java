@@ -80,8 +80,7 @@ public class CardGame {
                             System.out.println("Player " + i+1 + " exits");
                             break;
                         }
-                        player.takeCard(deckLeft);
-                        player.giveCard(deckRight);
+                        player.myAction(deckLeft, deckRight);
                         endGame = player.checkHand();
                         if (endGame) {
                             System.out.println("Player " + (i + 1) + " wins");

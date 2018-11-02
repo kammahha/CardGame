@@ -26,13 +26,12 @@ public class Player {
         return hand;
     }
 
-    public void takeCard(Deck deckLeft) {
+    public void myAction (Deck deckLeft, Deck deckRight) {
+        // taking a card
         Card addCard = deckLeft.dHand.remove(0);
         hand.add(addCard);
         System.out.println("Player " + id + " draws a " + addCard.value + " from deck " + deckLeft.id);
-    }
-
-    public void giveCard(Deck deckRight) {
+        // discarding a card
         for (int i = 0; i < hand.size(); i++ ){
             if(!((hand.get(i).value) == (id))) {
                 Card removeCard = hand.remove(i); // we need to apply strategy here
