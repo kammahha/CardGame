@@ -42,7 +42,7 @@ public class Player {
             }
         }
     }
-    public boolean checkHand() {
+    boolean checkHand() {
         boolean won = false;
         if (hand.get(0).value == hand.get(1).value && hand.get(0).value == hand.get(2).value && hand.get(0).value == hand.get(3).value) {
             won = true;
@@ -50,6 +50,7 @@ public class Player {
         }
         else
             System.out.println("Player " + id + " current hand is " + hand.get(0).value + " " + hand.get(1).value + " " + hand.get(2).value + " " + hand.get(3).value);
+
         return won;
     }
 }

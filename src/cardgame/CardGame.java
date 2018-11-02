@@ -21,7 +21,7 @@ public class CardGame {
 
             System.out.println("Enter the path of the file (location of the file): ");
             String pathroute = in.next();
-            File inputFile = new File("pack.txt");
+            File inputFile = new File(pathroute);
 
             ArrayList<Card> cards = new ArrayList<>(32);
 
@@ -75,13 +75,19 @@ public class CardGame {
                         Deck deckRight = decksList.get((i+1) % nofPlayers);
                         System.out.println();
                         endGame = player.checkHand();
-                        if (endGame)
+                        if (endGame) {
+                            System.out.println("Player " + i+1 + " wins");
+                            System.out.println("Player " + i+1 + " exits");
                             break;
+                        }
                         player.takeCard(deckLeft);
                         player.giveCard(deckRight);
                         endGame = player.checkHand();
-                        if (endGame)
+                        if (endGame) {
+                            System.out.println("Player " + (i + 1) + " wins");
+                            System.out.println("Player " + (i + 1) + " exits");
                             break;
+                        }
                     }
                 }
 
