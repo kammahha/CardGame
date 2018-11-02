@@ -18,6 +18,7 @@ public class Player {
         hand.add(c2);
         hand.add(c3);
         hand.add(c4);
+        System.out.println("player " + id + " initial hand: " + hand.get(0).value + " " + hand.get(1).value + " " + hand.get(2).value + " " + hand.get(3).value);
     }
 
     public ArrayList<Card> getHand()
@@ -28,15 +29,15 @@ public class Player {
     public void takeCard(Deck deckLeft) {
         Card addCard = deckLeft.dHand.remove(0);
         hand.add(addCard);
-        System.out.println("Player " + id + " draws a " + addCard.value + " from deck " + id);
+        System.out.println("Player " + id + " draws a " + addCard.value + " from deck " + deckLeft.id);
     }
 
     public void giveCard(Deck deckRight) {
         for (int i = 0; i < hand.size(); i++ ){
-            if(!((hand.get(i).value) == (id+1))) {
+            if(!((hand.get(i).value) == (id))) {
                 Card removeCard = hand.remove(i); // we need to apply strategy here
                 deckRight.dHand.add(removeCard);
-                System.out.println("Player " + id + " discards a " + removeCard.value + " from deck " + id+1);
+                System.out.println("Player " + id + " discards a " + removeCard.value + " to deck " + (deckRight.id));
                 break;
             }
         }
@@ -45,8 +46,10 @@ public class Player {
         boolean won = false;
         if (hand.get(0).value == hand.get(1).value && hand.get(0).value == hand.get(2).value && hand.get(0).value == hand.get(3).value) {
             won = true;
+            System.out.println("Player " + id + " final hand is " + hand.get(0).value + " " + hand.get(1).value + " " + hand.get(2).value + " " + hand.get(3).value);
         }
-        System.out.println("Player " + id + "current hand is " + hand.get(0).value + hand.get(1).value + hand.get(2).value + hand.get(3).value);
+        else
+            System.out.println("Player " + id + " current hand is " + hand.get(0).value + " " + hand.get(1).value + " " + hand.get(2).value + " " + hand.get(3).value);
         return won;
     }
 }

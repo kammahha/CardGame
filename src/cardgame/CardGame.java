@@ -11,15 +11,17 @@ public class CardGame {
         int nofPlayers = in.nextInt();
 
         if (nofPlayers > 0) {
+
             // number of cards, value of cards
             int nofCards = 8 * nofPlayers, index = 0, value;
+
             // isFile is true when the input file exists; false if it doesn't
             // negativenumber is true when the number of players is negative
             boolean isFile = true, negativenumber = false;
 
             System.out.println("Enter the path of the file (location of the file): ");
             String pathroute = in.next();
-            File inputFile = new File(pathroute);
+            File inputFile = new File("pack.txt");
 
             ArrayList<Card> cards = new ArrayList<>(32);
 
@@ -32,7 +34,7 @@ public class CardGame {
                     if (value > 0)
                     {
                         Card cardInstance = new Card(value);
-                        cards.set(index, cardInstance);
+                        cards.add(index, cardInstance);
                         index++;
                     }
                     else{
@@ -45,6 +47,43 @@ public class CardGame {
                 // all the code yall
                 //CardDistribution(cards, nofCards, nofPlayers);
 
+                // creating objects players and decks
+
+                ArrayList<Player> playersList = new ArrayList<>(nofPlayers);
+                ArrayList<Deck> decksList = new ArrayList<>(nofPlayers);
+
+                for (int i = 0; i < nofPlayers; i++)
+                {
+                    playersList.add(new Player(i+1));
+                }
+
+                for (int i = 0; i < nofPlayers; i++)
+                {
+                    decksList.add(new Deck(i+1));
+                }
+
+                CardDistribution(cards, playersList, decksList, nofPlayers);
+
+                boolean endGame = false;
+
+                while (!endGame)
+                {
+                    for (int i = 0; i < nofPlayers; i ++)
+                    {
+                        Player player = playersList.get(i);
+                        Deck deckLeft = decksList.get(i);
+                        Deck deckRight = decksList.get((i+1) % nofPlayers);
+                        System.out.println();
+                        endGame = player.checkHand();
+                        if (endGame)
+                            break;
+                        player.takeCard(deckLeft);
+                        player.giveCard(deckRight);
+                        endGame = player.checkHand();
+                        if (endGame)
+                            break;
+                    }
+                }
 
             }
             catch (ArrayIndexOutOfBoundsException e)
@@ -70,14 +109,15 @@ public class CardGame {
     }
 
 
-    public static void CardDistribution(ArrayList<Card> cards, int numCards, int n){
-//        int player[] = new int[n];
-//        int playerCards [] = new int[4];
-//
-//        for (int index = 0; index <=noofCards; index++){
-//            for (int i = 0; player[i] < 4; i++){
-//
-//            }
-//        }
+    public static void CardDistribution(ArrayList<Card> cards, ArrayList<Player> players, ArrayList<Deck> decks, int n)
+    {
+        for (int i = 0; i < n; i++)
+        {
+            players.get(i).setInitialHand(cards.get(i), cards.get(i + n), cards.get(i + 2*n), cards.get(i + 3*n));
+        }
+        for (int i = 0; i < n; i++)
+        {
+            decks.get(i).setInitialHand(cards.get(4*n + i), cards.get(i + 5*n), cards.get(i + 6*n), cards.get(i + 7*n));
+        }
     }
 }
