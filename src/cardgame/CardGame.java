@@ -8,53 +8,51 @@ public class CardGame {
         System.out.println("pls enter number of players: ");
         Scanner in = new Scanner(System.in);
         int nofPlayers = in.nextInt();
+        ArrayList<Card> cards = new ArrayList<>();
+        int nofCards = 8 * nofPlayers, value;
+        boolean isFile = true, negativeNumber = false, incorrectValue = false;
 
-        if (nofPlayers > 0) {
-
-            // number of cards, value of cards
-            int nofCards = 8 * nofPlayers, index = 0, value;
+        if (nofPlayers <= 0) {
+            System.out.println("Invalid number of players: Please enter a positive integer");
+        }
+        else {
+            // number of cards, index in the ArrayList, value of cards
 
             // isFile is true when the input file exists; false if it doesn't
-            // negativenumber is true when the number of players is negative
-            boolean isFile = true, negativenumber = false;
+            // negativenumber is true when one of the values is negative
             System.out.println("Enter the path of the file (location of the file): ");
-            String pathroute = in.next();
-            File inputFile = new File(pathroute);
-            ArrayList<Card> cards = new ArrayList<>(nofCards);
+            String pathRoute = in.next();
+            File inputFile = new File(pathRoute);
 
             try {
                 // We check if the pack is valid and enter new card objects into the cards ArrayList
                 // We create the card objects by using a constructor and passing 'value' as argument
 
-
-
                 Scanner input = new Scanner(inputFile);
                 while (input.hasNextLine()) {
-                    value = input.nextInt();
+                    value = Integer.valueOf(input.nextLine());
                     if (value > 0) //IS 0 NEGATIVE OR POSITIVE?
                     {
-                        Card cardInstance = new Card(value);
-                        cards.add(index, cardInstance);
-                        index++;
+                        cards.add(new Card(value));
                     }
-                    else{
-                        System.out.println("Invalid pack: Your pack contains a negative denomination");
-                        negativenumber = true;
+                    else if (value <= 0){
+                        negativeNumber = true;
                         break;
                     }
                 }
-                if (cards.size() > nofCards){
-                    throw new ArrayIndexOutOfBoundsException();
-                }else if(cards.size() < nofCards) {
-                    System.out.println("Invalid pack: Pack is too short");
-                }
+            }
+            catch (NumberFormatException e)
+            {
+                incorrectValue = true;
+            }
+            catch (Exception e)
+            {
+                  System.out.println("Invalid pack: " + e.toString());
+                  isFile = false;
+            }
 
-
-                // all the code yall
-                //CardDistribution(cards, nofCards, nofPlayers);
-
-                // creating objects players and decks
-
+            if (cards.size() == nofCards && isFile && !negativeNumber && !incorrectValue)
+            {
                 ArrayList<Player> playersList = new ArrayList<>(nofPlayers);
                 ArrayList<Deck> decksList = new ArrayList<>(nofPlayers);
 
@@ -82,8 +80,8 @@ public class CardGame {
                         System.out.println();
                         endGame = player.checkHand();
                         if (endGame) {
-                            System.out.println("Player " + i+1 + " wins");
-                            System.out.println("Player " + i+1 + " exits");
+                            System.out.println("Player " + (i+1) + " wins");
+                            System.out.println("Player " + (i+1) + " exits");
                             break;
                         }
                         player.myAction(deckLeft, deckRight);
@@ -95,26 +93,23 @@ public class CardGame {
                         }
                     }
                 }
-
             }
-
-            catch (ArrayIndexOutOfBoundsException e)
+            else if (incorrectValue)
             {
-                System.out.println("Invalid pack: Pack is too long");
-                System.out.println(e.toString());
-            }catch (InputMismatchException e){
-                System.out.println("Invalid pack: Pack contains non-integers");
+                System.out.println("Invalid pack: Pack contains incorrect value");
             }
-            catch (Exception e)
+            else if (negativeNumber)
             {
-                  System.out.println("Invalid pack: The input file was not found");
-                  System.out.println(e.toString());
-                  isFile = false;
+                System.out.println("Invalid pack: Your pack contains a negative denomination");
             }
-        } else if(nofPlayers == 0 ) {
-            System.out.println("Game has ended; no players playing");
-        } else{
-            System.out.println("Invalid number of players: Please enter a positive number");
+            else if (cards.size() < nofCards && isFile)
+            {
+                System.out.println("Invalid pack: pack is too short");
+            }
+            else if (cards.size() > nofCards)
+            {
+                System.out.println("Invalid pack: pack is too long");
+            }
         }
     }
 
@@ -136,6 +131,5 @@ public class CardGame {
             String fileName = "Player" + (i+1) +"_output.txt";
             BufferedWriter writer = new BufferedWriter((new FileWriter(fileName)));
         }
-
     }
 }

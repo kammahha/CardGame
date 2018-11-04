@@ -29,6 +29,7 @@ public class Player {
     public void myAction (Deck deckLeft, Deck deckRight) {
         // taking a card
         Card addCard = deckLeft.dHand.remove(0);
+
         hand.add(addCard);
         System.out.println("Player " + id + " draws a " + addCard.value + " from deck " + deckLeft.id);
         // discarding a card
