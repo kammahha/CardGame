@@ -1,6 +1,5 @@
 package cardgame;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 import java.io.*;
 
 public class CardGame {
@@ -18,20 +17,21 @@ public class CardGame {
             // isFile is true when the input file exists; false if it doesn't
             // negativenumber is true when the number of players is negative
             boolean isFile = true, negativenumber = false;
-
             System.out.println("Enter the path of the file (location of the file): ");
             String pathroute = in.next();
             File inputFile = new File(pathroute);
-
-            ArrayList<Card> cards = new ArrayList<>(32);
+            ArrayList<Card> cards = new ArrayList<>(nofCards);
 
             try {
                 // We check if the pack is valid and enter new card objects into the cards ArrayList
                 // We create the card objects by using a constructor and passing 'value' as argument
+
+
+
                 Scanner input = new Scanner(inputFile);
                 while (input.hasNextLine()) {
                     value = input.nextInt();
-                    if (value > 0)
+                    if (value > 0) //IS 0 NEGATIVE OR POSITIVE?
                     {
                         Card cardInstance = new Card(value);
                         cards.add(index, cardInstance);
@@ -43,6 +43,12 @@ public class CardGame {
                         break;
                     }
                 }
+                if (cards.size() > nofCards){
+                    throw new ArrayIndexOutOfBoundsException();
+                }else if(cards.size() < nofCards) {
+                    System.out.println("Invalid pack: Pack is too short");
+                }
+
 
                 // all the code yall
                 //CardDistribution(cards, nofCards, nofPlayers);
@@ -91,20 +97,19 @@ public class CardGame {
                 }
 
             }
+
             catch (ArrayIndexOutOfBoundsException e)
             {
                 System.out.println("Invalid pack: Pack is too long");
                 System.out.println(e.toString());
+            }catch (InputMismatchException e){
+                System.out.println("Invalid pack: Pack contains non-integers");
             }
             catch (Exception e)
             {
-                System.out.println("Invalid pack: The input file was not found");
-                System.out.println(e.toString());
-                isFile = false;
-            }
-            if (isFile && index != nofCards && !negativenumber)
-            {
-                System.out.println("Invalid pack: Pack is too short");
+                  System.out.println("Invalid pack: The input file was not found");
+                  System.out.println(e.toString());
+                  isFile = false;
             }
         } else if(nofPlayers == 0 ) {
             System.out.println("Game has ended; no players playing");
@@ -124,5 +129,13 @@ public class CardGame {
         {
             decks.get(i).setInitialHand(cards.get(4*n + i), cards.get(i + 5*n), cards.get(i + 6*n), cards.get(i + 7*n));
         }
+    }
+
+    public void createOutputFile (int nofplayers) throws IOException {
+        for (int i = 0; i < nofplayers; i++){
+            String fileName = "Player" + (i+1) +"_output.txt";
+            BufferedWriter writer = new BufferedWriter((new FileWriter(fileName)));
+        }
+
     }
 }
