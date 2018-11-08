@@ -4,12 +4,20 @@ import java.io.*;
 
 public class CardGame {
 
+    static int nofPlayers;
+    static ArrayList<Card> cards = new ArrayList<>();
+    static int nofCards;
+    static ArrayList<Player> playersList = new ArrayList<>(nofPlayers);
+    static ArrayList<Deck> decksList = new ArrayList<>(nofPlayers);
+    static boolean endGame = false;
+    static int whoWon;
+
     public static void main(String[] args) {
         System.out.println("pls enter number of players: ");
         Scanner in = new Scanner(System.in);
-        int nofPlayers = in.nextInt();
-        ArrayList<Card> cards = new ArrayList<>();
-        int nofCards = 8 * nofPlayers, value;
+        nofPlayers = in.nextInt();
+        nofCards = 8 * nofPlayers;
+        int value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
 
         if (nofPlayers <= 0) {
@@ -53,9 +61,6 @@ public class CardGame {
 
             if (cards.size() == nofCards && isFile && !negativeNumber && !incorrectValue)
             {
-                ArrayList<Player> playersList = new ArrayList<>(nofPlayers);
-                ArrayList<Deck> decksList = new ArrayList<>(nofPlayers);
-
                 for (int i = 0; i < nofPlayers; i++)
                 {
                     playersList.add(new Player(i+1));
@@ -68,30 +73,11 @@ public class CardGame {
 
                 CardDistribution(cards, playersList, decksList, nofPlayers);
 
-                boolean endGame = false;
-
-                while (!endGame)
+                for (int i = 0; i < nofPlayers; i ++)
                 {
-                    for (int i = 0; i < nofPlayers; i ++)
-                    {
-                        Player player = playersList.get(i);
-                        Deck deckLeft = decksList.get(i);
-                        Deck deckRight = decksList.get((i+1) % nofPlayers);
-                        System.out.println();
-                        endGame = player.checkHand();
-                        if (endGame) {
-                            System.out.println("Player " + (i+1) + " wins");
-                            System.out.println("Player " + (i+1) + " exits");
-                            break;
-                        }
-                        player.myAction(deckLeft, deckRight);
-                        endGame = player.checkHand();
-                        if (endGame) {
-                            System.out.println("Player " + (i + 1) + " wins");
-                            System.out.println("Player " + (i + 1) + " exits");
-                            break;
-                        }
-                    }
+
+                    Thread thread = new Thread(playersList.get(i));
+                    thread.start();
                 }
             }
             else if (incorrectValue)
