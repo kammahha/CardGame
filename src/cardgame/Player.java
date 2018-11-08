@@ -42,6 +42,7 @@ public class Player implements Runnable {
                     break;
                 }
             }
+            checkHand();
         }
 
     }
@@ -62,7 +63,6 @@ public class Player implements Runnable {
         while(!CardGame.endGame)
         {
             myAction(CardGame.decksList.get((this.id % CardGame.nofPlayers)), CardGame.decksList.get((this.id + 1) % CardGame.nofPlayers));
-            this.checkHand();
         }
     }
 }
