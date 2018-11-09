@@ -19,8 +19,13 @@ public class Deck {
         dHand.add(c4);
     }
 
-    public ArrayList<Card> getHand()
+    public synchronized String getHand()
     {
-        return dHand;
+        String hand = "";
+        for (int i = 0; i < dHand.size(); i ++)
+        {
+            hand = hand + dHand.get(i).value + " ";
+        }
+        return hand;
     }
 }

@@ -7,10 +7,12 @@ public class CardGame {
     static int nofPlayers;
     static ArrayList<Card> cards = new ArrayList<>();
     static int nofCards;
-    static ArrayList<Player> playersList = new ArrayList<>(nofPlayers);
-    static ArrayList<Deck> decksList = new ArrayList<>(nofPlayers);
+    static ArrayList<Player> playersList = new ArrayList<>();
+    static ArrayList<Deck> decksList = new ArrayList<>();
+    static Boolean[] dead = new Boolean[nofPlayers];
     static boolean endGame = false;
     static int whoWon;
+//    static Thread myThreads[] = new Thread[nofPlayers];
 
     public static void main(String[] args) {
         System.out.println("pls enter number of players: ");
@@ -59,6 +61,12 @@ public class CardGame {
                   isFile = false;
             }
 
+
+
+            // the actual game
+
+
+
             if (cards.size() == nofCards && isFile && !negativeNumber && !incorrectValue)
             {
                 for (int i = 0; i < nofPlayers; i++)
@@ -73,12 +81,15 @@ public class CardGame {
 
                 CardDistribution(cards, playersList, decksList, nofPlayers);
 
-                for (int i = 0; i < nofPlayers; i ++)
-                {
-
+//                boolean allThreadsDead = false;
+//                int uggudhh = 0;
+//
+                for (int i = 0; i < nofPlayers; i ++) {
                     Thread thread = new Thread(playersList.get(i));
                     thread.start();
                 }
+
+
             }
             else if (incorrectValue)
             {
@@ -105,17 +116,18 @@ public class CardGame {
         for (int i = 0; i < n; i++)
         {
             players.get(i).setInitialHand(cards.get(i), cards.get(i + n), cards.get(i + 2*n), cards.get(i + 3*n));
-        }
-        for (int i = 0; i < n; i++)
-        {
             decks.get(i).setInitialHand(cards.get(4*n + i), cards.get(i + 5*n), cards.get(i + 6*n), cards.get(i + 7*n));
         }
     }
-
-    public void createOutputFile (int nofplayers) throws IOException {
-        for (int i = 0; i < nofplayers; i++){
-            String fileName = "Player" + (i+1) +"_output.txt";
-            BufferedWriter writer = new BufferedWriter((new FileWriter(fileName)));
-        }
-    }
+//    public static boolean areAllTrue(Boolean[] array){
+//        for(boolean b : array){
+//            if (!b){
+//                System.out.println(b);
+//                return false;
+//            }else{
+//                return true;
+//            }
+//
+//        }
+//    }
 }
