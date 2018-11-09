@@ -12,7 +12,7 @@ public class Deck {
         this.id = id;
     }
 
-    public void setInitialHand(Card c1, Card c2, Card c3, Card c4){
+    public synchronized void setInitialHand(Card c1, Card c2, Card c3, Card c4){
         dHand.add(c1);
         dHand.add(c2);
         dHand.add(c3);
@@ -27,5 +27,12 @@ public class Deck {
             hand = hand + dHand.get(i).value + " ";
         }
         return hand;
+    }
+    public static synchronized Card removeCard(ArrayList<Card> dHand){
+        return dHand.remove(0);
+    }
+    public static synchronized void addCard(ArrayList<Card> dHand, Card aCard){
+         dHand.add(aCard);
+
     }
 }

@@ -7,4 +7,5 @@ public class Card {
     {
         this.value = value;
     }
+
 }

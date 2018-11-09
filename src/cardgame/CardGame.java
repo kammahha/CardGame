@@ -81,9 +81,7 @@ public class CardGame {
 
                 CardDistribution(cards, playersList, decksList, nofPlayers);
 
-//                boolean allThreadsDead = false;
-//                int uggudhh = 0;
-//
+
                 for (int i = 0; i < nofPlayers; i ++) {
                     Thread thread = new Thread(playersList.get(i));
                     thread.start();

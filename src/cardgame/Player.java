@@ -34,7 +34,7 @@ public class Player implements Runnable {
 
         // taking a card
         if (deckLeft.dHand.size() > 0) {
-            Card addCard = deckLeft.dHand.remove(0);
+            Card addCard = Deck.removeCard(deckLeft.dHand);
             hand.add(addCard);
 
             String drawing = ("player " + this.id + " draws a " + addCard.value + " from deck " + deckLeft.id);
@@ -44,7 +44,7 @@ public class Player implements Runnable {
             for (int i = 0; i < hand.size(); i++) {
                 if (!((hand.get(i).value) == (id))) {
                     Card removeCard = hand.remove(i); // we need to apply strategy here
-                    deckRight.dHand.add(removeCard);
+                    Deck.addCard(deckRight.dHand,removeCard);
 
                     String discarding = ("Player " + this.id + " discards a " + removeCard.value + " to deck " + (deckRight.id));
                     output.add(discarding);
