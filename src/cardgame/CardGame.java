@@ -69,9 +69,11 @@ public class CardGame {
 
             if (cards.size() == nofCards && isFile && !negativeNumber && !incorrectValue)
             {
-                for (int i = 0; i < nofPlayers; i++)
+                playersList.add(new Player(1, true));
+                for (int i = 1; i < nofPlayers; i++)
                 {
                     playersList.add(new Player(i+1));
+
                 }
 
                 for (int i = 0; i < nofPlayers; i++)

@@ -10,6 +10,7 @@ public class Player implements Runnable {
     private int id; // so player1 is gonna be 0
     private ArrayList<Card> hand = new ArrayList<>();
     private ArrayList<String> output = new ArrayList<>();
+    private boolean dontWait;
 
     public int returnSize() {
         return output.size();
@@ -17,6 +18,10 @@ public class Player implements Runnable {
 
     Player(int id) {
         this.id = id;
+    }
+    Player(int id, boolean dontWait){
+        this(id);
+        this.dontWait = dontWait;
     }
 
 
@@ -33,6 +38,7 @@ public class Player implements Runnable {
     public synchronized void myAction(Deck deckLeft, Deck deckRight) {
 
         // taking a card
+        //have a variable to keep track
         if (deckLeft.dHand.size() > 0) {
             Card addCard = Deck.removeCard(deckLeft.dHand);
             hand.add(addCard);
@@ -53,6 +59,7 @@ public class Player implements Runnable {
             }
             checkHand();
         }
+        dontWait = false;
     }
 
 
@@ -77,7 +84,19 @@ public class Player implements Runnable {
     @Override
     public void run() {
         while (!CardGame.endGame) {
+            synchronized (this) {
+                while(!dontWait) {
+                    try {
+                        this.wait();
+                        break;
+                    } catch (InterruptedException ignored) {}
+                }
+            }
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
+            final Player nextPlayer = CardGame.playersList.get((id) % CardGame.playersList.size());
+            synchronized (nextPlayer){
+                nextPlayer.notify();
+            }
         }
         if (CardGame.whoWon != this.id)
         {
