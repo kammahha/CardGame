@@ -12,7 +12,6 @@ public class Player implements Runnable {
     private ArrayList<String> output = new ArrayList<>();
     private boolean dontWait;
     private int howManyRounds = 0;
-    private boolean Iwon = false;
 
     public int returnSize() {
         return output.size();
@@ -21,11 +20,19 @@ public class Player implements Runnable {
     Player(int id) {
         this.id = id;
     }
-    Player(int id, boolean dontWait){
-        this(id);
-        this.dontWait = dontWait;
-    }
 
+//    Player(int id, boolean dontWait){
+//        this(id);
+//        this.dontWait = dontWait;
+//    }
+
+    /**
+     * Sets initial hand and adds initial hand to output array
+     * @param c1 1st card distributed to the player
+     * @param c2 2nd card distributed to the player
+     * @param c3 3rd card distributed to the player
+     * @param c4 4th card distributed to the player
+     */
 
     public void setInitialHand(Card c1, Card c2, Card c3, Card c4) {
         hand.add(c1);
@@ -36,22 +43,32 @@ public class Player implements Runnable {
         output.add(firstHand);
     }
 
+    /**
+     *  This method does the action of picking and discarding a card.
+     * @param deckLeft the deck that the player will be picking up a card from
+     * @param deckRight the deck that the player will be discarding a card to
+     */
 
     public void myAction(Deck deckLeft, Deck deckRight) {
 
-        // taking a card
-        //have a variable to keep track
+        // checks to see if deck is non-empty
         if (deckLeft.dHand.size() > 0) {
             Card addCard = deckLeft.dHand.remove(0);
+            // removes card from deck and adds to hand
             hand.add(addCard);
 
             String drawing = ("player " + this.id + " draws a " + addCard.value + " from deck " + deckLeft.id);
             output.add(drawing);
 
-            // discarding a card
+            /*
+                Checks each card to see if it equals player ID. Discards the first
+                card that isn't equalling ID since that will be the oldest card
+                in the hand
+             */
             for (int i = 0; i < 4; i++) {
 
                 if (!((hand.get(i).value) == (id))) {
+
                     Card removeCard = hand.remove(i);
                     deckRight.dHand.add(removeCard);
 
@@ -61,66 +78,42 @@ public class Player implements Runnable {
                 }
             }
             howManyRounds ++;
-            CardGame.rounds = theMostRounds();
-            CardGame.hadTurn.set(this.id, true);
+            checkHand();
         }
-//        dontWait = false;
     }
 
 
-    public synchronized int theMostRounds()
-    {
-        if (CardGame.rounds < this.howManyRounds)
-            return this.howManyRounds;
-        else
-            return CardGame.rounds;
-    }
-
-
-//    public synchronized boolean areAllTrue()
+//    public synchronized int enoughRounds()
 //    {
-//        for (int i = 1; i <= CardGame.nofPlayers; i ++)
-//        {
-//            if (!CardGame.hadTurn.get(i))
-//                return false;
-//        }
-//        return true;
+//        if (CardGame.rounds < this.howManyRounds)
+//            return this.howManyRounds;
+//        else
+//            return CardGame.rounds;
 //    }
 
 
-    public synchronized void checkHand() {
-        if (!CardGame.endGame)
-        {
-            if (this.hand.get(0).value == this.hand.get(1).value && this.hand.get(1).value == this.hand.get(2).value && this.hand.get(2).value == this.hand.get(3).value)
-            {
-                this.Iwon = true;
-                CardGame.endGame = true;
-            }
 
-        } else
-            {
+    /**
+     * This method checks the hand when the cards are distributed and after the joint
+     * action of picking and discarding a card takes place to see if the player won.
+     * It then adds the current hand to output array if the cards aren't equal to each
+     * other.
+     */
+    public synchronized void checkHand() {
+        if (!CardGame.endGame && this.hand.get(0).value == this.hand.get(1).value && this.hand.get(0).value == this.hand.get(2).value && this.hand.get(0).value == this.hand.get(3).value) {
+            whoWonCheck();
+
+        } else {
             String currentHand = ("Player " + this.id + " current hand is " + this.hand.get(0).value + " " + this.hand.get(1).value + " " + this.hand.get(2).value + " " + this.hand.get(3).value);
             output.add(currentHand);
-            }
-    }
-
-    // call it after cardgame.endgame is already true
-    public synchronized void whoWonCheck() {
-        for (int i = 0; i < CardGame.nofPlayers; i++) {
-            if (CardGame.playersList.get(i).Iwon) {
-                if (CardGame.playersList.get(i).howManyRounds < CardGame.rounds) {
-                    CardGame.whoWon = (i + 1);
-                }
-            }
         }
     }
 
 
-
-        if (Iwon)
+    public synchronized void whoWonCheck()
+    {
+        if (CardGame.whoWon == 0)
         {
-            if (this.howManyRounds <= ) //what if is equal?? eg both win after 3 rounds
-
             CardGame.endGame = true;
             CardGame.whoWon = this.id;
             //CardGame.whoWonOutputSize = this.output.size();
@@ -131,6 +124,7 @@ public class Player implements Runnable {
             output.add(wins);
             output.add(exits);
             output.add(finalHand);
+            System.out.println("Player " + CardGame.whoWon + " has won");
         }
     }
 
@@ -141,57 +135,20 @@ public class Player implements Runnable {
         checkHand();
         //while (!CardGame.endGame && this.howManyRounds <= CardGame.rounds)
         while (!CardGame.endGame) {
-//            synchronized (this) {
-//                while(!dontWait) {
-//                    try {
-//                        this.wait();
-//                        break;
-//                    } catch (InterruptedException ignored) {}
-//                }
-//            }
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
-//            final Player nextPlayer = CardGame.playersList.get((id) % CardGame.playersList.size());
-//            synchronized (nextPlayer){
-//                nextPlayer.notify();
-//            }
-
-            synchronized (CardGame.round)
+        }
+        for (int i = 0; i < CardGame.nofPlayers; i ++)
+        {
+            if (CardGame.rounds <= CardGame.playersList.get(i).howManyRounds)
             {
-                if (!areAllTrue())
-                {
-                    while (!areAllTrue())
-                    {
-                        try {
-                            CardGame.round.wait();
-                            break;
-                        } catch (InterruptedException ignored)  {}
-                    }
-                    checkHand();
-                    if (this.Iwon)
-                    {
-                        whoWonCheck();
-                    }
-                }
-                else
-                {
-                    CardGame.makeTable();
-                    checkHand();
-                    if (this.Iwon)
-                    {
-                        whoWonCheck();
-                    }
-                    CardGame.round.notifyAll();
-                }
-
-//                CardGame.makeTable();
-//                checkHand();
-//                if (this.Iwon)
-//                {
-//                    whoWonCheck();
-//                }
-//                CardGame.round.notifyAll();
+                CardGame.rounds = CardGame.playersList.get(i).howManyRounds;
             }
         }
+        while (CardGame.rounds != this.howManyRounds)
+        {
+            myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
+        }
+
         if (CardGame.whoWon != id)
         {
             output.add(("Player " + CardGame.whoWon + " has informed player " + this.id + " that player " + CardGame.whoWon + " has won"));
@@ -199,17 +156,7 @@ public class Player implements Runnable {
             String currentHand = ("Player " + this.id + " hand: " + this.hand.get(0).value + " " + this.hand.get(1).value + " " + this.hand.get(2).value + " " + this.hand.get(3).value);
             output.add(currentHand);
         }
-        else
-        {
-            String wins = ("Player " + this.id + " wins");
-            String exits = ("Player " + this.id + " exits");
-            String finalHand = ("Player " + this.id + " final hand is " + this.hand.get(0).value + " " + this.hand.get(1).value + " " + this.hand.get(2).value + " " + this.hand.get(3).value);
-            output.add(wins);
-            output.add(exits);
-            output.add(finalHand);
-        }
 
-        System.out.println("Player " + CardGame.whoWon + " has won");
         String filePlayer = "Player" + this.id + "_output.txt";
         String fileDeck = "Deck" + this.id + "_output.txt";
         try {
@@ -232,5 +179,5 @@ public class Player implements Runnable {
             e.printStackTrace();
         }
     }
-
 }
+

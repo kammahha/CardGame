@@ -5,8 +5,7 @@ import java.io.*;
 public class CardGame {
 
     static int nofPlayers;
-    static ArrayList<Card> cards = new ArrayList<>();
-    static int nofCards;
+    private static ArrayList<Card> cards = new ArrayList<>();
     static ArrayList<Player> playersList = new ArrayList<>();
     static ArrayList<Deck> decksList = new ArrayList<>();
     static Boolean[] dead = new Boolean[nofPlayers];
@@ -15,17 +14,19 @@ public class CardGame {
     static int rounds = 0;
     static int whoWonOutputSize;
     static ArrayList<Boolean> hadTurn = new ArrayList<>();
-    static Round round = new Round();
 
     public static void main(String[] args) {
+        //Gets input
         System.out.println("pls enter number of players: ");
         Scanner in = new Scanner(System.in);
         nofPlayers = in.nextInt();
-        nofCards = 8 * nofPlayers;
+        int nofCards = 8 * nofPlayers;
         int value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
-
-        if (nofPlayers <= 0) {
+        /*
+            Ensures a positive integer is typed for number of players
+         */
+        if (nofPlayers <= 0 ) {
             System.out.println("Invalid number of players: Please enter a positive integer");
         }
         else {
@@ -48,7 +49,7 @@ public class CardGame {
                     {
                         cards.add(new Card(value));
                     }
-                    else if (value <= 0){
+                    else {
                         negativeNumber = true;
                         break;
                     }
@@ -60,8 +61,8 @@ public class CardGame {
             }
             catch (Exception e)
             {
-                  System.out.println("Invalid pack: " + e.toString());
-                  isFile = false;
+                System.out.println("Invalid pack: " + e.toString());
+                isFile = false;
             }
 
 
@@ -72,8 +73,8 @@ public class CardGame {
 
             if (cards.size() == nofCards && isFile && !negativeNumber && !incorrectValue)
             {
-                playersList.add(new Player(1));
-                for (int i = 1; i < nofPlayers; i++)
+                // creating players and decks
+                for (int i = 0; i < nofPlayers; i++)
                 {
                     playersList.add(new Player(i+1));
 
@@ -87,7 +88,7 @@ public class CardGame {
                 makeTable();
                 CardDistribution(cards, playersList, decksList, nofPlayers);
 
-
+                // starting threads for each player
                 for (int i = 0; i < nofPlayers; i ++) {
                     Thread thread = new Thread(playersList.get(i));
                     thread.start();
@@ -114,11 +115,21 @@ public class CardGame {
         }
     }
 
-
+    /**
+     * This method distributes the pack between the payers first and then
+     * the decks using the setInitialHand method from Player class.
+     * It does this in a round robin fashion.
+     * @param cards this is the pack that is given
+     * @param players the list of players
+     * @param decks the list of decks
+     * @param n the number of players it needs to iterate over
+     */
     public static void CardDistribution(ArrayList<Card> cards, ArrayList<Player> players, ArrayList<Deck> decks, int n)
     {
+        // iterates through each player and deck
         for (int i = 0; i < n; i++)
         {
+            // difference between each card in pack that is handed out is n (nofplayers)
             players.get(i).setInitialHand(cards.get(i), cards.get(i + n), cards.get(i + 2*n), cards.get(i + 3*n));
             decks.get(i).setInitialHand(cards.get(4*n + i), cards.get(i + 5*n), cards.get(i + 6*n), cards.get(i + 7*n));
         }
@@ -129,16 +140,6 @@ public class CardGame {
     {
         for (int i = 0; i <= nofPlayers; i ++)
             hadTurn.add(i, false);
-    }
-
-    public static boolean areAllSame()
-    {
-        for (int i = 0; i < CardGame.nofPlayers; i ++)
-        {
-            if (CardGame.playersList.get(i).howManyRounds != (CardGame.rounds + 1))
-                return false;
-        }
-        return true;
     }
 }
 
