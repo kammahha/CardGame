@@ -15,6 +15,7 @@ public class CardGame {
     static int rounds = 0;
     static int whoWonOutputSize;
     static ArrayList<Boolean> hadTurn = new ArrayList<>();
+    static Round round = new Round();
 
     public static void main(String[] args) {
         System.out.println("pls enter number of players: ");
@@ -71,7 +72,7 @@ public class CardGame {
 
             if (cards.size() == nofCards && isFile && !negativeNumber && !incorrectValue)
             {
-                playersList.add(new Player(1, true));
+                playersList.add(new Player(1));
                 for (int i = 1; i < nofPlayers; i++)
                 {
                     playersList.add(new Player(i+1));
@@ -128,6 +129,16 @@ public class CardGame {
     {
         for (int i = 0; i <= nofPlayers; i ++)
             hadTurn.add(i, false);
+    }
+
+    public static boolean areAllSame()
+    {
+        for (int i = 0; i < CardGame.nofPlayers; i ++)
+        {
+            if (CardGame.playersList.get(i).howManyRounds != (CardGame.rounds + 1))
+                return false;
+        }
+        return true;
     }
 }
 
