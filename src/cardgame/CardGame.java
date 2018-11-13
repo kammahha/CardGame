@@ -12,7 +12,9 @@ public class CardGame {
     static Boolean[] dead = new Boolean[nofPlayers];
     static boolean endGame = false;
     static int whoWon;
-//    static Thread myThreads[] = new Thread[nofPlayers];
+    static int rounds = 0;
+    static int whoWonOutputSize;
+    static ArrayList<Boolean> hadTurn = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("pls enter number of players: ");
@@ -81,6 +83,7 @@ public class CardGame {
                     decksList.add(new Deck(i+1));
                 }
 
+                makeTable();
                 CardDistribution(cards, playersList, decksList, nofPlayers);
 
 
@@ -119,15 +122,13 @@ public class CardGame {
             decks.get(i).setInitialHand(cards.get(4*n + i), cards.get(i + 5*n), cards.get(i + 6*n), cards.get(i + 7*n));
         }
     }
-//    public static boolean areAllTrue(Boolean[] array){
-//        for(boolean b : array){
-//            if (!b){
-//                System.out.println(b);
-//                return false;
-//            }else{
-//                return true;
-//            }
-//
-//        }
-//    }
+
+
+    public static void makeTable()
+    {
+        for (int i = 0; i <= nofPlayers; i ++)
+            hadTurn.add(i, false);
+    }
 }
+
+

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Deck {
 
+    static int numerofCards = 52;
     int id;
     ArrayList<Card> dHand = new ArrayList<Card>();
 
@@ -28,11 +29,10 @@ public class Deck {
         }
         return hand;
     }
-    public static synchronized Card removeCard(ArrayList<Card> dHand){
-        return dHand.remove(0);
-    }
-    public static synchronized void addCard(ArrayList<Card> dHand, Card aCard){
-         dHand.add(aCard);
-
-    }
+//    public synchronized Card removeCard(){
+//        return dHand.remove(0);
+//    }
+//    public synchronized void addCard(Card aCard){
+//         dHand.add(aCard);
+//    }
 }
