@@ -77,20 +77,20 @@ public class Player implements Runnable {
                     break;
                 }
             }
+            if ((hand.size()) > 4)
+            {
+                Card removeCard = hand.remove(4);
+                deckRight.dHand.add(removeCard);
+
+                String discarding = ("Player " + this.id + " discards a " + removeCard.value + " to deck " + (deckRight.id));
+                output.add(discarding);
+            }
             howManyRounds ++;
             checkHand();
+            if (CardGame.rounds < this.howManyRounds)
+                CardGame.rounds = this.howManyRounds;
         }
     }
-
-
-//    public synchronized int enoughRounds()
-//    {
-//        if (CardGame.rounds < this.howManyRounds)
-//            return this.howManyRounds;
-//        else
-//            return CardGame.rounds;
-//    }
-
 
 
     /**
@@ -116,15 +116,8 @@ public class Player implements Runnable {
         {
             CardGame.endGame = true;
             CardGame.whoWon = this.id;
-            //CardGame.whoWonOutputSize = this.output.size();
-            CardGame.rounds = this.howManyRounds;
-            String wins = ("Player " + this.id + " wins");
-            String exits = ("Player " + this.id + " exits");
-            String finalHand = ("Player " + this.id + " final hand is " + this.hand.get(0).value + " " + this.hand.get(1).value + " " + this.hand.get(2).value + " " + this.hand.get(3).value);
-            output.add(wins);
-            output.add(exits);
-            output.add(finalHand);
-            System.out.println("Player " + CardGame.whoWon + " has won");
+            String wins = ("Player " + CardGame.whoWon + " wins");
+            this.output.add(wins);
         }
     }
 
@@ -133,18 +126,11 @@ public class Player implements Runnable {
     @Override
     public void run() {
         checkHand();
-        //while (!CardGame.endGame && this.howManyRounds <= CardGame.rounds)
         while (!CardGame.endGame) {
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
         }
-        for (int i = 0; i < CardGame.nofPlayers; i ++)
-        {
-            if (CardGame.rounds <= CardGame.playersList.get(i).howManyRounds)
-            {
-                CardGame.rounds = CardGame.playersList.get(i).howManyRounds;
-            }
-        }
-        while (CardGame.rounds != this.howManyRounds)
+
+        while (this.howManyRounds < CardGame.rounds)
         {
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
         }
@@ -156,6 +142,15 @@ public class Player implements Runnable {
             String currentHand = ("Player " + this.id + " hand: " + this.hand.get(0).value + " " + this.hand.get(1).value + " " + this.hand.get(2).value + " " + this.hand.get(3).value);
             output.add(currentHand);
         }
+        else
+        {
+            System.out.println(CardGame.rounds);
+            String exits = ("Player " + CardGame.whoWon + " exits");
+            String finalHand = ("Player " + CardGame.whoWon + " final hand is " + this.hand.get(0).value + " " + this.hand.get(1).value + " " + this.hand.get(2).value + " " + this.hand.get(3).value);
+            this.output.add(exits);
+            this.output.add(finalHand);
+            System.out.println("Player " + CardGame.whoWon + " has won");
+        }
 
         String filePlayer = "Player" + this.id + "_output.txt";
         String fileDeck = "Deck" + this.id + "_output.txt";
@@ -163,7 +158,6 @@ public class Player implements Runnable {
             PrintWriter out1 = new PrintWriter(new FileWriter(filePlayer));
             PrintWriter out2 = new PrintWriter(new FileWriter(fileDeck));
 
-            //int diff = CardGame.whoWonOutputSize - this.returnSize();
 
             for (int j = 0; j < this.returnSize(); j++) {
                 out1.println(this.output.get(j));

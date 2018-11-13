@@ -85,7 +85,6 @@ public class CardGame {
                     decksList.add(new Deck(i+1));
                 }
 
-                makeTable();
                 CardDistribution(cards, playersList, decksList, nofPlayers);
 
                 // starting threads for each player
@@ -136,11 +135,8 @@ public class CardGame {
     }
 
 
-    public static void makeTable()
-    {
-        for (int i = 0; i <= nofPlayers; i ++)
-            hadTurn.add(i, false);
-    }
+
+
 }
 
 
