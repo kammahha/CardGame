@@ -19,7 +19,12 @@ public class CardGame {
         //Gets input
         System.out.println("pls enter number of players: ");
         Scanner in = new Scanner(System.in);
-        nofPlayers = 4;
+        try {
+
+            nofPlayers = in.nextInt();
+        }catch(InputMismatchException e){
+
+        }
                 //in.nextInt();
         int nofCards = 8 * nofPlayers;
         int value;
@@ -37,7 +42,7 @@ public class CardGame {
             // negativenumber is true when one of the values is negative
             System.out.println("Enter the path of the file (location of the file): ");
             String pathRoute = in.next();
-            File inputFile = new File("pack.txt");
+            File inputFile = new File(pathRoute);
                     //pathRoute);
 
             try {
