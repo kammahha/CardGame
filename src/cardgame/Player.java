@@ -49,10 +49,12 @@ public class Player implements Runnable {
      * @param deckRight the deck that the player will be discarding a card to
      */
 
-    public void myAction(Deck deckLeft, Deck deckRight) {
+    public synchronized void myAction(Deck deckLeft, Deck deckRight) {
 
         // checks to see if deck is non-empty
         if (deckLeft.dHand.size() > 0) {
+            howManyRounds ++;
+            mostRounds();
             Card addCard = deckLeft.dHand.remove(0);
             // removes card from deck and adds to hand
             hand.add(addCard);
@@ -65,7 +67,7 @@ public class Player implements Runnable {
                 card that isn't equalling ID since that will be the oldest card
                 in the hand
              */
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < hand.size(); i++) {
 
                 if (!((hand.get(i).value) == (id))) {
 
@@ -82,13 +84,17 @@ public class Player implements Runnable {
                 Card removeCard = hand.remove(4);
                 deckRight.dHand.add(removeCard);
 
-                String discarding = ("Player " + this.id + " discards a " + removeCard.value + " to deck " + (deckRight.id));
+                String discarding = ("2. Player " + this.id + " discards a " + removeCard.value + " to deck " + (deckRight.id));
                 output.add(discarding);
             }
-            howManyRounds ++;
             checkHand();
-            if (CardGame.rounds < this.howManyRounds)
-                CardGame.rounds = this.howManyRounds;
+        }
+    }
+
+
+    public synchronized void mostRounds() {
+        if (this.howManyRounds > CardGame.rounds) {
+            CardGame.rounds = this.howManyRounds;
         }
     }
 
@@ -128,11 +134,13 @@ public class Player implements Runnable {
         checkHand();
         while (!CardGame.endGame) {
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
+            mostRounds();
         }
 
         while (this.howManyRounds < CardGame.rounds)
         {
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
+            mostRounds();
         }
 
         if (CardGame.whoWon != id)
@@ -163,7 +171,7 @@ public class Player implements Runnable {
                 out1.println(this.output.get(j));
             }
 
-            String deckOutput = (CardGame.decksList.get(this.id % CardGame.nofPlayers).getHand());
+            String deckOutput = CardGame.decksList.get((this.id - 1)).getHand();
             out2.println(deckOutput);
 
             out1.close();
