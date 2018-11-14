@@ -19,7 +19,8 @@ public class CardGame {
         //Gets input
         System.out.println("pls enter number of players: ");
         Scanner in = new Scanner(System.in);
-        nofPlayers = in.nextInt();
+        nofPlayers = 4;
+                //in.nextInt();
         int nofCards = 8 * nofPlayers;
         int value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
@@ -36,7 +37,8 @@ public class CardGame {
             // negativenumber is true when one of the values is negative
             System.out.println("Enter the path of the file (location of the file): ");
             String pathRoute = in.next();
-            File inputFile = new File(pathRoute);
+            File inputFile = new File("pack.txt");
+                    //pathRoute);
 
             try {
                 // We check if the pack is valid and enter new card objects into the cards ArrayList

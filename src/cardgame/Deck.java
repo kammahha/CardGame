@@ -26,8 +26,18 @@ public class Deck {
         {
             hand = hand + dHand.get(i).value + " ";
         }
-        System.out.println(hand);
+        System.out.println(this.id + ": " + hand);
         return hand;
+    }
+
+    public synchronized void cardAdded(Card card)
+    {
+        dHand.add(card);
+    }
+
+    public synchronized Card cardTaken()
+    {
+        return dHand.remove(0);
     }
 //    public synchronized Card removeCard(){
 //        return dHand.remove(0);

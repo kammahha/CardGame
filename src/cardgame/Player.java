@@ -21,6 +21,17 @@ public class Player implements Runnable {
         this.id = id;
     }
 
+    public synchronized String handToString()
+    {
+        String handString = "";
+        for (int i = 0; i < hand.size(); i ++)
+        {
+            handString = handString + hand.get(i).value + " ";
+        }
+        //System.out.println(this.id + ": " + handString);
+        return handString;
+    }
+
 //    Player(int id, boolean dontWait){
 //        this(id);
 //        this.dontWait = dontWait;
@@ -43,6 +54,17 @@ public class Player implements Runnable {
         output.add(firstHand);
     }
 
+
+    public synchronized Card drawCard(Deck deck)
+    {
+        return deck.cardTaken();
+    }
+
+    public synchronized void discardCard(Card card, Deck deck)
+    {
+        deck.cardAdded(card);
+    }
+
     /**
      *  This method does the action of picking and discarding a card.
      * @param deckLeft the deck that the player will be picking up a card from
@@ -55,7 +77,8 @@ public class Player implements Runnable {
         if (deckLeft.dHand.size() > 0) {
             howManyRounds ++;
             mostRounds();
-            Card addCard = deckLeft.dHand.remove(0);
+
+            Card addCard = drawCard(deckLeft);
             // removes card from deck and adds to hand
             hand.add(addCard);
 
@@ -67,27 +90,31 @@ public class Player implements Runnable {
                 card that isn't equalling ID since that will be the oldest card
                 in the hand
              */
+            boolean done = false;
             for (int i = 0; i < hand.size(); i++) {
 
                 if (!((hand.get(i).value) == (id))) {
 
                     Card removeCard = hand.remove(i);
-                    deckRight.dHand.add(removeCard);
+                    discardCard(removeCard, deckRight);
 
                     String discarding = ("Player " + this.id + " discards a " + removeCard.value + " to deck " + (deckRight.id));
                     output.add(discarding);
+                    done = true;
                     break;
                 }
             }
-            if ((hand.size()) > 4)
+            if (!done)
             {
-                Card removeCard = hand.remove(4);
-                deckRight.dHand.add(removeCard);
+                Card removeCard = hand.remove(hand.size()-1);
+                discardCard(removeCard, deckRight);
 
                 String discarding = ("2. Player " + this.id + " discards a " + removeCard.value + " to deck " + (deckRight.id));
                 output.add(discarding);
             }
             checkHand();
+            mostRounds();
+
         }
     }
 
@@ -137,6 +164,13 @@ public class Player implements Runnable {
             mostRounds();
         }
 
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         while (this.howManyRounds < CardGame.rounds)
         {
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
@@ -171,7 +205,8 @@ public class Player implements Runnable {
                 out1.println(this.output.get(j));
             }
 
-            String deckOutput = CardGame.decksList.get((this.id - 1)).getHand();
+            String deckOutput = CardGame.decksList.get((this.id-1)).getHand();
+            System.out.println("player " + id + " hand: " + handToString());
             out2.println(deckOutput);
 
             out1.close();
