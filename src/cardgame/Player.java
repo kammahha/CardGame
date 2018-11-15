@@ -7,29 +7,23 @@ import java.util.ArrayList;
 
 public class Player implements Runnable {
 
-    private int id;
-    public ArrayList<Card> hand = new ArrayList<>();
-    public ArrayList<String> output = new ArrayList<>();
-    private int playerRounds = 0;
+    int id;
+    ArrayList<Card> hand = new ArrayList<>();
+    ArrayList<String> output = new ArrayList<>();
+    int playerRounds = 0;
 
 
-
-    Player(int id)
-    {
+    Player(int id) {
         this.id = id;
     }
 
 
-
-    public int getOutputSize()
-    {
+    public int getOutputSize() {
         return this.output.size();
     }
 
 
-
-    public synchronized String handToString()
-    {
+    public synchronized String handToString() {
         String handString = "";
 
         for (int i = 0; i < this.hand.size(); i ++)
@@ -185,6 +179,7 @@ public class Player implements Runnable {
             mostRounds();
         }
 
+
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -212,11 +207,7 @@ public class Player implements Runnable {
             this.output.add("player " + CardGame.whoWon + " final hand is " + this.handToString());
             System.out.println("player " + CardGame.whoWon + " has won");
         }
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
 
         try {
             Thread.sleep(100);
@@ -239,7 +230,7 @@ public class Player implements Runnable {
             }
 
 
-            String deckOutput = CardGame.decksList.get((this.id-1)).getHand();
+            String deckOutput = CardGame.decksList.get((this.id-1)).printHand();
             System.out.println("player " + this.id + " hand: " + this.handToString());
             out2.println(deckOutput);
 

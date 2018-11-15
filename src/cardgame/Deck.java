@@ -8,8 +8,7 @@ public class Deck {
     ArrayList<Card> dHand = new ArrayList<Card>();
 
 
-    public Deck(int id)
-    {
+    public Deck(int id) {
         this.id = id;
     }
 
@@ -24,28 +23,25 @@ public class Deck {
 
 
 
-    public synchronized String getHand()
-    {
-        String hand = "";
+    public synchronized String printHand() {
+        String hand = "deck " + this.id + " contents: ";
         for (int i = 0; i < dHand.size(); i ++)
         {
             hand = hand + dHand.get(i).value + " ";
         }
-        System.out.println("deck " + this.id + ": " + hand);
+        System.out.println("deck " + this.id + " contents : " + hand);
         return hand;
     }
 
 
 
-    public synchronized void cardAdded(Card card)
-    {
+    public synchronized void cardAdded(Card card) {
         dHand.add(card);
     }
 
 
 
-    public synchronized Card cardTaken()
-    {
+    public synchronized Card cardTaken() {
         return dHand.remove(0);
     }
 }
