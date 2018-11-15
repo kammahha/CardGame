@@ -21,14 +21,14 @@ public class Player implements Runnable {
 
 
 
-    private int getOutputSize()
+    public int getOutputSize()
     {
         return this.output.size();
     }
 
 
 
-    private synchronized String handToString()
+    public synchronized String handToString()
     {
         String handString = "";
 
@@ -61,21 +61,21 @@ public class Player implements Runnable {
 
 
 
-    private synchronized Card drawCard(Deck deck)
+    public synchronized Card drawCard(Deck deck)
     {
         return deck.cardTaken();
     }
 
 
 
-    private synchronized void discardCard(Card card, Deck deck)
+    public synchronized void discardCard(Card card, Deck deck)
     {
         deck.cardAdded(card);
     }
 
 
 
-    private synchronized void mostRounds() {
+    public synchronized void mostRounds() {
         if (this.playerRounds > CardGame.rounds) {
             CardGame.rounds = this.playerRounds;
         }
@@ -89,7 +89,7 @@ public class Player implements Runnable {
      * @param deckRight the deck that the player will be discarding a card to
      */
 
-    private synchronized void myAction(Deck deckLeft, Deck deckRight)
+    public synchronized void myAction(Deck deckLeft, Deck deckRight)
     {
         if (deckLeft.dHand.size() > 0)
         {
@@ -147,7 +147,7 @@ public class Player implements Runnable {
 
 
 
-    private synchronized void checkHand()
+    public synchronized void checkHand()
     {
         if (!CardGame.endGame && this.hand.get(0).value == this.hand.get(1).value && this.hand.get(0).value == this.hand.get(2).value && this.hand.get(0).value == this.hand.get(3).value)
         {
@@ -162,7 +162,7 @@ public class Player implements Runnable {
 
 
 
-    private synchronized void whoWonCheck()
+    public synchronized void whoWonCheck()
     {
         if (CardGame.whoWon == 0)
         {
@@ -215,6 +215,13 @@ public class Player implements Runnable {
         }
 
 
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         String filePlayer = "player" + this.id + "_output.txt";
         String fileDeck = "deck" + this.id + "_output.txt";
 
@@ -227,6 +234,7 @@ public class Player implements Runnable {
             {
                 out1.println(this.output.get(j));
             }
+
 
             String deckOutput = CardGame.decksList.get((this.id-1)).getHand();
             System.out.println("player " + this.id + " hand: " + this.handToString());

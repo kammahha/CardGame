@@ -55,10 +55,15 @@ public class CardGame {
         Scanner in = new Scanner(System.in);
         try {
             nofPlayers = in.nextInt();
+
+            if (nofPlayers < 1)
+            {
+                System.out.println("Invalid number of players: Please enter a positive integer");
+            }
         } catch (InputMismatchException e) {
             System.out.println("Invalid number of players: Please enter a positive integer");
         }
-
+        nofPlayers = 4;
         int nofCards = 8 * nofPlayers, value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
 
@@ -123,8 +128,6 @@ public class CardGame {
             }
         }
     }
-
-
 }
 
 

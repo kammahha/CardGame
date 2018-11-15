@@ -1,26 +1,48 @@
 package cardgame;
 
 import org.junit.Test;
-import org.junit.runners.Suite;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
-//@RunWith(Suite.class)
-//@Suite.SuiteClasses({PlayerTest.class})
 public class PlayerTest {
 
-    //org.junit.runner.JUnitCore.runClasses(PlayerTest.class);
+    Player player = new Player(1);
 
-    private Player playerOne = new Player(1);
-    private Deck deckLeft = new Deck (1);
-    private Deck deckRight = new Deck (2);
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
 
     @Test
-    public void returnSize() {
+    public void getOutputSize() {
+        ;
+    }
 
+    @Test
+    public void handToString() {
     }
 
     @Test
     public void setInitialHand() {
+
+    }
+
+    @Test
+    public void drawCard() {
+    }
+
+    @Test
+    public void discardCard() {
+    }
+
+    @Test
+    public void mostRounds() {
     }
 
     @Test
@@ -32,6 +54,6 @@ public class PlayerTest {
     }
 
     @Test
-    public void run() {
+    public void whoWonCheck() {
     }
 }
