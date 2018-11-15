@@ -179,7 +179,6 @@ public class Player implements Runnable {
     public void run()
     {
         checkHand();
-
         while (!CardGame.endGame)
         {
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));

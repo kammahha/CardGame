@@ -120,7 +120,6 @@ public class CardGame {
                     Thread thread = new Thread(playersList.get(i));
                     thread.start();
                 }
-
             }
         }
     }
