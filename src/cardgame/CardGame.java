@@ -11,6 +11,7 @@ public class CardGame {
     static boolean endGame = false;
     static int whoWon;
     static int rounds = 0;
+    static Scanner in = new Scanner(System.in);
 
 
 
@@ -46,78 +47,82 @@ public class CardGame {
         }
     }
 
-
-
-    public static void main(String[] args) {
-
-        //Gets input
+    public static boolean getNoOfPlayers(){
         System.out.println("pls enter number of players: ");
-        Scanner in = new Scanner(System.in);
+        /*
+            Ensures a positive integer is typed for number of players
+        */
         try {
+
             nofPlayers = in.nextInt();
 
             if (nofPlayers < 1)
             {
                 System.out.println("Invalid number of players: Please enter a positive integer");
+            }else{
+                return true;
             }
         } catch (InputMismatchException e) {
             System.out.println("Invalid number of players: Please enter a positive integer");
         }
-        nofPlayers = 4;
+        return false;
+    }
+
+    public static boolean getPath(){
         int nofCards = 8 * nofPlayers, value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
 
-        /*
-            Ensures a positive integer is typed for number of players
-         */
+        System.out.println("Enter the path of the file (location of the file): ");
+        String pathRoute = in.next();
+        File inputFile = new File(pathRoute);
 
-        if (nofPlayers > 0)
-        {
-            System.out.println("Enter the path of the file (location of the file): ");
-            String pathRoute = in.next();
-            File inputFile = new File(pathRoute);
+        try {
+            Scanner input = new Scanner(inputFile);
 
-
-            try {
-                Scanner input = new Scanner(inputFile);
-
-                while (input.hasNextLine()) {
-                    value = Integer.valueOf(input.nextLine());
-                    if (value > 0) // can 0 be in a pack or nah
-                    {
-                        cards.add(new Card(value));
-                    }
-                    else {
-                        negativeNumber = true;
-                        break;
-                    }
+            while (input.hasNextLine()) {
+                value = Integer.valueOf(input.nextLine());
+                if (value > 0) // can 0 be in a pack or nah
+                {
+                    cards.add(new Card(value));
                 }
-            } catch (NumberFormatException e) {
-                incorrectValue = true;
-            } catch (Exception e) {
-                System.out.println("Invalid pack: The system cannot find the file specified");
-                isFile = false;
+                else {
+                    negativeNumber = true;
+                    break;
+                }
             }
 
+        } catch (NumberFormatException e) {
+            incorrectValue = true;
+        } catch (Exception e) {
+            System.out.println("Invalid pack: The system cannot find the file specified");
+            isFile = false;
+        }
+        if (incorrectValue)
+        {
+            System.out.println("Invalid pack: Pack contains incorrect value");
+        }
+        else if (negativeNumber)
+        {
+            System.out.println("Invalid pack: Your pack contains a negative denomination");
+        }
+        else if (cards.size() < nofCards && isFile)
+        {
+            System.out.println("Invalid pack: pack is too short");
+        }
+        else if (cards.size() > nofCards)
+        {
+            System.out.println("Invalid pack: pack is too long");
+        }else if (cards.size() == nofCards && isFile){
+            return true;
+        }
+        return false;
+    }
 
-            if (incorrectValue)
-            {
-                System.out.println("Invalid pack: Pack contains incorrect value");
-            }
-            else if (negativeNumber)
-            {
-                System.out.println("Invalid pack: Your pack contains a negative denomination");
-            }
-            else if (cards.size() < nofCards && isFile)
-            {
-                System.out.println("Invalid pack: pack is too short");
-            }
-            else if (cards.size() > nofCards)
-            {
-                System.out.println("Invalid pack: pack is too long");
-            }
-            else if (cards.size() == nofCards && isFile)
-            {
+
+    public static void main(String[] args) {
+        if(getNoOfPlayers()){
+            if(getPath()){
+
                 creatingPlayersDecks(nofPlayers);
                 CardDistribution(cards, playersList, decksList, nofPlayers);
 
@@ -125,8 +130,13 @@ public class CardGame {
                     Thread thread = new Thread(playersList.get(i));
                     thread.start();
                 }
+
             }
         }
+
+
+
+
     }
 }
 

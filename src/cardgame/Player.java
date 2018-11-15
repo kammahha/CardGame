@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Player implements Runnable {
 
     private int id;
-    private ArrayList<Card> hand = new ArrayList<>();
-    private ArrayList<String> output = new ArrayList<>();
+    public ArrayList<Card> hand = new ArrayList<>();
+    public ArrayList<String> output = new ArrayList<>();
     private int playerRounds = 0;
 
 
@@ -185,7 +185,6 @@ public class Player implements Runnable {
             mostRounds();
         }
 
-
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -213,7 +212,11 @@ public class Player implements Runnable {
             this.output.add("player " + CardGame.whoWon + " final hand is " + this.handToString());
             System.out.println("player " + CardGame.whoWon + " has won");
         }
-
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         try {
             Thread.sleep(100);

@@ -1,10 +1,11 @@
 package cardgame;
 
+import org.junit.*;
+
 import org.junit.Test;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class PlayerTest {
@@ -16,16 +17,22 @@ public class PlayerTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws Exception{
     }
 
     @Test
     public void getOutputSize() {
-        ;
+        player.output.add("Hello World");
+        player.output.add("Hello");
+        Assert.assertEquals(2, player.getOutputSize());
+
+
+
     }
 
     @Test
     public void handToString() {
+
     }
 
     @Test
@@ -35,18 +42,22 @@ public class PlayerTest {
 
     @Test
     public void drawCard() {
+
     }
 
     @Test
     public void discardCard() {
+
     }
 
     @Test
     public void mostRounds() {
+
     }
 
     @Test
     public void myAction() {
+
     }
 
     @Test

@@ -8,22 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Taster {
-    public static void main(String[] args) throws IOException {
-        int x = 0;
-        List<List<String>> lists = new ArrayList<List<String>>();
-        while (x < 5) {
+    int i;
+    int j;
 
-            for (int i = 0; i < 3; i++) {
-                List<String> result = new ArrayList<String>();
-                result.add("Hello");
-                lists.add(result);
-            }
-            x++;
-
-        }
-
-        System.out.println(lists.get(5));
-
+    public Taster (int i, int j){
+        i = this.i;
+        j = this.j;
+    }
+    public static int addSum (int i, int j){
+        return  (i+ j);
     }
 
 //    private static BufferedWriter writer(int i) throws IOException {
