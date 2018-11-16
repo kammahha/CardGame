@@ -6,20 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
+import java.util.Scanner;
 
 import static org.junit.Assert.*;
 
 public class CardGameTest {
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
 
     @Test
     public void cardDistribution() {
@@ -27,14 +20,42 @@ public class CardGameTest {
 
     @Test
     public void creatingPlayersDecks() {
+
     }
 
     @Test
-    public void testGetPath() {
+    public void testGetPathTrue() {
         CardGame.nofPlayers = 4;
-        String path = "pack.txt";
-        InputStream in = new ByteArrayInputStream(path.getBytes());
-        System.setIn(in);
-        Assert.assertEquals(true, CardGame.getPath());
+        assertEquals(true, CardGame.getPath("pack.txt"));
+    }
+
+    @Test
+    public void testGetPathShort() {
+        CardGame.nofPlayers = 5;
+        assertEquals(false, CardGame.getPath("pack.txt"));
+    }
+
+    @Test
+    public void testGetPathLong() {
+        CardGame.nofPlayers = 2;
+        assertEquals(false, CardGame.getPath("pack.txt"));
+    }
+
+    @Test
+    public void testGetPathNegativeValue() {
+        CardGame.nofPlayers = 4;
+        assertEquals(false, CardGame.getPath("pack-incorrect-value.txt"));
+    }
+
+    @Test
+    public void testGetPathIncorrectValue() {
+        CardGame.nofPlayers = 4;
+        assertEquals(false, CardGame.getPath("pack-incorrect-value.txt"));
+    }
+
+    @Test
+    public void testGetNoOfPlayersInt() {
+        assertEquals(true, CardGame.getNoOfPlayers(4));
+        assertEquals(false, CardGame.getNoOfPlayers(-4));
     }
 }

@@ -25,7 +25,7 @@ public class CardGame {
      * @param n the number of players it needs to iterate over
      */
 
-    public static void CardDistribution(ArrayList<Card> cards, ArrayList<Player> players, ArrayList<Deck> decks, int n)
+    static void CardDistribution(ArrayList<Card> cards, ArrayList<Player> players, ArrayList<Deck> decks, int n)
     {
         // iterates through each player and deck
         for (int i = 0; i < n; i++)
@@ -37,8 +37,7 @@ public class CardGame {
     }
 
 
-
-    public static void creatingPlayersDecks(int n)
+    static void creatingPlayersDecks(int n)
     {
         for (int i = 0; i < n; i++)
         {
@@ -47,33 +46,44 @@ public class CardGame {
         }
     }
 
-    public static boolean getNoOfPlayers(){
-        System.out.println("pls enter number of players: ");
+
+    static int getIntInput()
+    {
+        int input = 0;
+        try {
+            input = in.nextInt();
+        } catch (InputMismatchException e) {
+                //System.out.println("Invalid number of players: Please enter a positive integer");
+        }
+        return input;
+    }
+
+    static String getStringInput()
+    {
+        String input = in.next();
+        return input;
+    }
+
+
+    static boolean getNoOfPlayers(int nofplayers){
         /*
             Ensures a positive integer is typed for number of players
-        */
-        try {
+    */
+        nofPlayers = nofplayers;
 
-            nofPlayers = in.nextInt();
-
-            if (nofPlayers < 1)
-            {
-                System.out.println("Invalid number of players: Please enter a positive integer");
-            }else{
-                return true;
-            }
-        } catch (InputMismatchException e) {
+        if (nofPlayers < 1)
+        {
             System.out.println("Invalid number of players: Please enter a positive integer");
+        }else{
+            return true;
         }
         return false;
     }
 
-    public static boolean getPath(){
+    static boolean getPath(String pathRoute){
         int nofCards = 8 * nofPlayers, value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
 
-        System.out.println("Enter the path of the file (location of the file): ");
-        String pathRoute = in.next();
         File inputFile = new File(pathRoute);
 
         try {
@@ -120,8 +130,10 @@ public class CardGame {
 
 
     public static void main(String[] args) {
-        if(getNoOfPlayers()){
-            if(getPath()){
+        System.out.println("pls enter number of players: ");
+        if(getNoOfPlayers(getIntInput())){
+            System.out.println("Enter the path of the file (location of the file): ");
+            if(getPath(getStringInput())){
 
                 creatingPlayersDecks(nofPlayers);
                 CardDistribution(cards, playersList, decksList, nofPlayers);
@@ -130,13 +142,8 @@ public class CardGame {
                     Thread thread = new Thread(playersList.get(i));
                     thread.start();
                 }
-
             }
         }
-
-
-
-
     }
 }
 
