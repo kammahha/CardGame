@@ -145,11 +145,14 @@ public class PlayerTest {
         player.myAction(leftDeck, rightDeck);
 
         ArrayList<Card> cardArray = new ArrayList<>();
-//        cardArray.add(card2);
-//        cardArray.add(card2);
-//        cardArray.add(card2);
-//        cardArray.add(card2);
-//        cardArray.add(card2);
+        cardArray.add(card1);
+        cardArray.add(card1);
+        cardArray.add(card1);
+
+        Assert.assertEquals(cardArray, leftDeck.dHand);
+
+        cardArray.add(card1);
+        cardArray.add(card1);
 
         Assert.assertEquals(cardArray, rightDeck.dHand);
     }

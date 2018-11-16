@@ -58,6 +58,7 @@ public class CardGame {
         return input;
     }
 
+
     static String getStringInput()
     {
         String input = in.next();
@@ -81,6 +82,7 @@ public class CardGame {
     }
 
     static boolean getPath(String pathRoute){
+        cards.clear();
         int nofCards = 8 * nofPlayers, value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
 
@@ -122,7 +124,9 @@ public class CardGame {
         else if (cards.size() > nofCards)
         {
             System.out.println("Invalid pack: pack is too long");
-        }else if (cards.size() == nofCards && isFile){
+        }
+        else if (cards.size() == nofCards && isFile){
+
             return true;
         }
         return false;

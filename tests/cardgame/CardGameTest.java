@@ -59,22 +59,23 @@ public class CardGameTest {
     public void testGetPathTrue() {
         // when everything is fine
         CardGame.nofPlayers = 4;
+
         assertTrue(CardGame.getPath("pack.txt"));
 
         // when the pack is too short
-        CardGame.nofPlayers = 5;
-        assertFalse(CardGame.getPath("pack.txt"));
+        assertFalse(CardGame.getPath("pack-too-short.txt"));
 
         // when the pack is too long
-        CardGame.nofPlayers = 2;
-        assertFalse(CardGame.getPath("pack.txt"));
+        assertFalse(CardGame.getPath("pack-too-long.txt"));
 
         // when the pack contains a negative value
-        CardGame.nofPlayers = 4;
         assertFalse(CardGame.getPath("pack-negative-value.txt"));
 
         // when the pack contains incorrect value
         assertFalse(CardGame.getPath("pack-incorrect-value.txt"));
+
+        // when the pack doesn't exist
+        assertFalse(CardGame.getPath("kcap.txt"));
     }
 
     @Test
