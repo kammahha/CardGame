@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({PlayerTest.class, CardGameTest.class, DeckTest.class, CardTest.class})
+@Suite.SuiteClasses({PlayerTest.class, DeckTest.class, CardTest.class, CardGameTest.class})
 public class TestSuite {
 
 }
