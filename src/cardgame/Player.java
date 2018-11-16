@@ -18,24 +18,6 @@ public class Player implements Runnable {
     }
 
 
-    public int getOutputSize() {
-        return this.output.size();
-    }
-
-
-    public synchronized String handToString() {
-        String handString = "";
-
-        for (int i = 0; i < this.hand.size(); i ++)
-        {
-            handString = handString + this.hand.get(i).value + " ";
-        }
-
-        return handString;
-    }
-
-
-
     /**
      * Sets initial hand and adds initial hand to output array
      * @param c1 1st card distributed to the player
@@ -49,10 +31,27 @@ public class Player implements Runnable {
         this.hand.add(c2);
         this.hand.add(c3);
         this.hand.add(c4);
-        String firstHand = ("player " + this.id + " initial hand: " + this.handToString());
+        String firstHand = ("player " + this.id + " initial hand:" + this.handToString());
         this.output.add(firstHand);
     }
 
+
+
+    public int getOutputSize() {
+        return this.output.size();
+    }
+
+
+    public synchronized String handToString() {
+        String handString = "";
+
+        for (int i = 0; i < this.hand.size(); i ++)
+        {
+            handString = handString + " " + this.hand.get(i).value;
+        }
+
+        return handString;
+    }
 
 
     public synchronized Card drawCard(Deck deck)
@@ -132,6 +131,18 @@ public class Player implements Runnable {
 
 
 
+    public synchronized void whoWonCheck()
+    {
+        if (CardGame.whoWon == 0)
+        {
+            CardGame.endGame = true;
+            CardGame.whoWon = this.id;
+            String wins = ("player " + CardGame.whoWon + " wins");
+            this.output.add(wins);
+        }
+    }
+
+
     /**
      * This method checks the hand when the cards are distributed and after the joint
      * action of picking and discarding a card takes place to see if the player won.
@@ -149,23 +160,11 @@ public class Player implements Runnable {
         }
         else
         {
-            String currentHand = ("player " + this.id + " current hand is " + this.handToString());
+            String currentHand = ("player " + this.id + " current hand is" + this.handToString());
             this.output.add(currentHand);
         }
     }
 
-
-
-    public synchronized void whoWonCheck()
-    {
-        if (CardGame.whoWon == 0)
-        {
-            CardGame.endGame = true;
-            CardGame.whoWon = this.id;
-            String wins = ("player " + CardGame.whoWon + " wins");
-            this.output.add(wins);
-        }
-    }
 
 
 
@@ -198,13 +197,13 @@ public class Player implements Runnable {
         {
             this.output.add(("player " + CardGame.whoWon + " has informed player " + this.id + " that player " + CardGame.whoWon + " has won"));
             this.output.add(("player " + this.id + " exits"));
-            this.output.add("player " + this.id + " hand: " + this.handToString());
+            this.output.add("player " + this.id + " hand:" + this.handToString());
         }
         else
         {
             System.out.println(CardGame.rounds);
             this.output.add("player " + CardGame.whoWon + " exits");
-            this.output.add("player " + CardGame.whoWon + " final hand is " + this.handToString());
+            this.output.add("player " + CardGame.whoWon + " final hand is" + this.handToString());
             System.out.println("player " + CardGame.whoWon + " has won");
         }
 
@@ -231,7 +230,7 @@ public class Player implements Runnable {
 
 
             String deckOutput = CardGame.decksList.get((this.id-1)).printHand();
-            System.out.println("player " + this.id + " hand: " + this.handToString());
+            System.out.println("player " + this.id + " hand:" + this.handToString());
             out2.println(deckOutput);
 
             out1.close();

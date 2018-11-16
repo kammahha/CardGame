@@ -20,7 +20,7 @@ public class DeckTest {
     }
 
     @Test
-    public void Deck() {
+    public void testDeck() {
         Deck deck = new Deck(1);
         Assert.assertNotNull(deck);
     }
@@ -29,7 +29,7 @@ public class DeckTest {
     Card card = new Card(2);
 
     @Test
-    public void setInitialHand() {
+    public void testSetInitialHand() {
         deck.setInitialHand(card, card, card, card);
         ArrayList<Card> cardArray = new ArrayList<>();
         cardArray.add(card);
@@ -40,23 +40,23 @@ public class DeckTest {
     }
 
     @Test
-    public void getHand() {
+    public void testGetHand() {
         deck.setInitialHand(card, card, card, card);
-        Assert.assertEquals("deck 1 contents: 2 2 2 2 ", deck.printHand());
+        Assert.assertEquals("deck 1 contents: 2 2 2 2", deck.printHand());
     }
 
     @Test
-    public void cardAdded() {
+    public void testCardAdded() {
         Card addCard = new Card(3);
         deck.cardAdded(addCard);
         Assert.assertEquals(3, deck.dHand.get(0).value);
     }
 
     @Test
-    public void cardTaken() {
+    public void testCardTaken() {
         deck.setInitialHand(card, card, card, card);
         Card removedCard = deck.cardTaken();
         Assert.assertEquals(2, removedCard.value);
-        Assert.assertEquals("deck 1 contents: 2 2 2 ", deck.printHand());
+        Assert.assertEquals("deck 1 contents: 2 2 2", deck.printHand());
     }
 }
