@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static org.junit.Assert.*;
@@ -15,47 +16,71 @@ import static org.junit.Assert.*;
 public class CardGameTest {
 
     @Test
-    public void cardDistribution() {
+    public void creatingPlayersDecks() {
+        CardGame.creatingPlayersDecks(2);
+
+        // checks if there is correct number of players created
+        assertEquals(2, CardGame.playersList.size());
+
+        // checks if there is correct number of decks created
+        assertEquals(2, CardGame.decksList.size());
+
+        // checks if the right player with a right id was created
+        assertEquals(2, CardGame.playersList.get(1).id);
+
+        // checks if the right deck with a right id was created
+        assertEquals(1, CardGame.decksList.get(0).id);
     }
 
     @Test
-    public void creatingPlayersDecks() {
+    public void testCardDistribution() {
+        Card card1 = new Card(1);
+        Card card2 = new Card(2);
+        ArrayList<Card> cards = new ArrayList<>();
+        CardGame.creatingPlayersDecks(1);
 
+        cards.add(card1);
+        cards.add(card2);
+        cards.add(card1);
+        cards.add(card2);
+        cards.add(card2);
+        cards.add(card1);
+        cards.add(card2);
+        cards.add(card1);
+
+        CardGame.cardDistribution(cards, CardGame.playersList, CardGame.decksList, 1);
+
+        assertEquals(" 1 2 1 2", CardGame.playersList.get(0).handToString());
+        assertEquals("deck 1 contents: 2 1 2 1", CardGame.decksList.get(0).printHand());
     }
+
 
     @Test
     public void testGetPathTrue() {
+        // when everything is fine
         CardGame.nofPlayers = 4;
-        assertEquals(true, CardGame.getPath("pack.txt"));
-    }
+        assertTrue(CardGame.getPath("pack.txt"));
 
-    @Test
-    public void testGetPathShort() {
+        // when the pack is too short
         CardGame.nofPlayers = 5;
-        assertEquals(false, CardGame.getPath("pack.txt"));
-    }
+        assertFalse(CardGame.getPath("pack.txt"));
 
-    @Test
-    public void testGetPathLong() {
+        // when the pack is too long
         CardGame.nofPlayers = 2;
-        assertEquals(false, CardGame.getPath("pack.txt"));
-    }
+        assertFalse(CardGame.getPath("pack.txt"));
 
-    @Test
-    public void testGetPathNegativeValue() {
+        // when the pack contains a negative value
         CardGame.nofPlayers = 4;
-        assertEquals(false, CardGame.getPath("pack-incorrect-value.txt"));
-    }
+        assertFalse(CardGame.getPath("pack-negative-value.txt"));
 
-    @Test
-    public void testGetPathIncorrectValue() {
-        CardGame.nofPlayers = 4;
-        assertEquals(false, CardGame.getPath("pack-incorrect-value.txt"));
+        // when the pack contains incorrect value
+        assertFalse(CardGame.getPath("pack-incorrect-value.txt"));
     }
 
     @Test
     public void testGetNoOfPlayersInt() {
-        assertEquals(true, CardGame.getNoOfPlayers(4));
-        assertEquals(false, CardGame.getNoOfPlayers(-4));
+        // when the number of players
+        assertTrue(CardGame.getNoOfPlayers(4));
+        assertFalse(CardGame.getNoOfPlayers(-4));
     }
 }

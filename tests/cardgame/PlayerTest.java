@@ -132,6 +132,29 @@ public class PlayerTest {
     }
 
     @Test
+    public void testMyAction5sameCards() {
+        Card card1 = new Card(1);
+        player.setInitialHand(card1, card1, card1, card1);
+
+        Deck leftDeck = new Deck(1);
+        leftDeck.setInitialHand(card1, card1, card1, card1);
+
+        Deck rightDeck = new Deck(2);
+        rightDeck.setInitialHand(card1, card1, card1, card1);
+
+        player.myAction(leftDeck, rightDeck);
+
+        ArrayList<Card> cardArray = new ArrayList<>();
+//        cardArray.add(card2);
+//        cardArray.add(card2);
+//        cardArray.add(card2);
+//        cardArray.add(card2);
+//        cardArray.add(card2);
+
+        Assert.assertEquals(cardArray, rightDeck.dHand);
+    }
+
+    @Test
     public void testWhoWonCheckEndGame() {
         player.whoWonCheck();
         Assert.assertTrue(CardGame.endGame);

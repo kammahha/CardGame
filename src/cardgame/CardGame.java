@@ -25,7 +25,7 @@ public class CardGame {
      * @param n the number of players it needs to iterate over
      */
 
-    static void CardDistribution(ArrayList<Card> cards, ArrayList<Player> players, ArrayList<Deck> decks, int n)
+    static void cardDistribution(ArrayList<Card> cards, ArrayList<Player> players, ArrayList<Deck> decks, int n)
     {
         // iterates through each player and deck
         for (int i = 0; i < n; i++)
@@ -136,7 +136,7 @@ public class CardGame {
             if(getPath(getStringInput())){
 
                 creatingPlayersDecks(nofPlayers);
-                CardDistribution(cards, playersList, decksList, nofPlayers);
+                cardDistribution(cards, playersList, decksList, nofPlayers);
 
                 for (int i = 0; i < nofPlayers; i ++) {
                     Thread thread = new Thread(playersList.get(i));

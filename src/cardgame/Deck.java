@@ -13,7 +13,6 @@ public class Deck {
     }
 
 
-
     void setInitialHand(Card c1, Card c2, Card c3, Card c4){
         dHand.add(c1);
         dHand.add(c2);
@@ -22,14 +21,12 @@ public class Deck {
     }
 
 
-
     synchronized String printHand() {
         String hand = "deck " + this.id + " contents:";
         for (int i = 0; i < dHand.size(); i ++)
         {
             hand = hand + " " + dHand.get(i).value;
         }
-        System.out.println("deck " + this.id + " contents:" + hand);
         return hand;
     }
 

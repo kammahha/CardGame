@@ -201,7 +201,6 @@ public class Player implements Runnable {
         }
         else
         {
-            System.out.println(CardGame.rounds);
             this.output.add("player " + CardGame.whoWon + " exits");
             this.output.add("player " + CardGame.whoWon + " final hand is" + this.handToString());
             System.out.println("player " + CardGame.whoWon + " has won");
@@ -230,7 +229,6 @@ public class Player implements Runnable {
 
 
             String deckOutput = CardGame.decksList.get((this.id-1)).printHand();
-            System.out.println("player " + this.id + " hand:" + this.handToString());
             out2.println(deckOutput);
 
             out1.close();
