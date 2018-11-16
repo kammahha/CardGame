@@ -33,6 +33,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="junit:junit:Release" level="project" />
-    <orderEntry type="library" name="junit-4.12" level="project" />
+    <orderEntry type="library" name="junit:junit-4.12" level="project" />
   </component>
 </module>

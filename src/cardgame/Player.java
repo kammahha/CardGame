@@ -35,13 +35,20 @@ public class Player implements Runnable {
         this.output.add(firstHand);
     }
 
-
+    /**
+     * Gets the output ArrayLst size to use in creating the output files
+     * @return Output ArrayList size
+     */
 
     public int getOutputSize() {
         return this.output.size();
     }
 
-
+    /**
+     *  This methods makes it easier to add to an output file as it converts the players
+     *  hand to a String
+     * @return Player's hand which has been converted to a String
+     */
     public synchronized String handToString() {
         String handString = "";
 
@@ -53,7 +60,11 @@ public class Player implements Runnable {
         return handString;
     }
 
-
+    /**
+     *
+     * @param deck
+     * @return
+     */
     public synchronized Card drawCard(Deck deck)
     {
         return deck.cardTaken();
@@ -66,7 +77,12 @@ public class Player implements Runnable {
         deck.cardAdded(card);
     }
 
-
+    /**
+     * Checks to see if the number of rounds of a certain player is the highest
+     * compared to all other players. This sets a number for all other players to
+     * reach when one has won to ensure that there are 4 cards in the decks at
+     * the end.
+     */
 
     public synchronized void mostRounds() {
         if (this.playerRounds > CardGame.rounds) {

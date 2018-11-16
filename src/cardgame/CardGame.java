@@ -4,6 +4,7 @@ import java.io.*;
 
 public class CardGame {
 
+    // Creating our global variables
     static int nofPlayers;
     private static ArrayList<Card> cards = new ArrayList<>();
     static ArrayList<Player> playersList = new ArrayList<>();
@@ -36,7 +37,10 @@ public class CardGame {
         }
     }
 
-
+    /**
+     * This method creates the players and decks by making their objects
+     * @param n number of players is passed in which is the same as the number of decks
+     */
     static void creatingPlayersDecks(int n)
     {
         for (int i = 0; i < n; i++)
@@ -46,32 +50,42 @@ public class CardGame {
         }
     }
 
-
+    /**
+     * This method gets user input for the number of players and catches exception is they enter
+     * an invalid input
+     * @return number of players if its a valid input. This is then put into getNoOfPlayers method.
+     */
     static int getIntInput()
     {
         int input = 0;
         try {
             input = in.nextInt();
-        } catch (InputMismatchException e) {
-                //System.out.println("Invalid number of players: Please enter a positive integer");
-        }
+        } catch (InputMismatchException e) {}
         return input;
     }
 
-
+    /**
+     * This method gets user input for the path of pack
+     * @return path of pack. This is then put into the getPath method.
+     */
     static String getStringInput()
     {
         String input = in.next();
         return input;
     }
 
-
+    /**
+     * Checks to see if number of players is greater than 0 and prints out error
+     * message if the number of players doesn't meet the requirements
+     * @param nofplayers number of players which is equal to number of decks
+     * @return True if the number is a positive integer, False otherwise.
+     */
     static boolean getNoOfPlayers(int nofplayers){
-        /*
-            Ensures a positive integer is typed for number of players
-    */
-        nofPlayers = nofplayers;
 
+        nofPlayers = nofplayers;
+        /*
+           Ensures a positive integer is typed for number of players
+        */
         if (nofPlayers < 1)
         {
             System.out.println("Invalid number of players: Please enter a positive integer");
@@ -81,19 +95,31 @@ public class CardGame {
         return false;
     }
 
+    /**
+     * This methods takes in the path as a parameter and checks if its valid. It
+     * does a few tests including checking if the pack is too long or short and if
+     * the pack contains an incorrect denomination such as a negative number.
+     * @param pathRoute User input of where the pack is stored
+     * @return True if file passes all of these checks, False otherwise
+     */
+
     static boolean getPath(String pathRoute){
         cards.clear();
         int nofCards = 8 * nofPlayers, value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
 
         File inputFile = new File(pathRoute);
+        /*
+            Tries finding the file and adding each value to a cards ArrayList,
+            catches if the file doesn't exist or has an incorrect value in it
+         */
 
         try {
             Scanner input = new Scanner(inputFile);
-
+            // Iterates through each line of the file
             while (input.hasNextLine()) {
                 value = Integer.valueOf(input.nextLine());
-                if (value > 0) // can 0 be in a pack or nah
+                if (value > 0)
                 {
                     cards.add(new Card(value));
                 }
@@ -109,6 +135,10 @@ public class CardGame {
             System.out.println("Invalid pack: The system cannot find the file specified");
             isFile = false;
         }
+        /*
+            Many checks taking place to ensure a correct error message is printed onto
+            the screen
+         */
         if (incorrectValue)
         {
             System.out.println("Invalid pack: Pack contains incorrect value");
@@ -125,8 +155,12 @@ public class CardGame {
         {
             System.out.println("Invalid pack: pack is too long");
         }
-        else if (cards.size() == nofCards && isFile){
-
+        /*
+            If it passes all of the checks above and it has the right number of cards
+            and the file exists, it returns True
+         */
+        else if (cards.size() == nofCards && isFile)
+        {
             return true;
         }
         return false;
@@ -134,14 +168,18 @@ public class CardGame {
 
 
     public static void main(String[] args) {
-        System.out.println("pls enter number of players: ");
+        System.out.println("Please enter number of players: ");
         if(getNoOfPlayers(getIntInput())){
             System.out.println("Enter the path of the file (location of the file): ");
             if(getPath(getStringInput())){
-
+                // If true for both then creates the players and distributes the cards.
                 creatingPlayersDecks(nofPlayers);
                 cardDistribution(cards, playersList, decksList, nofPlayers);
 
+                /*
+                    Once players and decks have an initial hand, it iterates through each player
+                    and creates + starts threads.
+                 */
                 for (int i = 0; i < nofPlayers; i ++) {
                     Thread thread = new Thread(playersList.get(i));
                     thread.start();
