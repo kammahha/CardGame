@@ -176,13 +176,12 @@ public class Player implements Runnable {
         }
         else
         {
+            if (this.playerRounds != 0) {
             String currentHand = ("player " + this.id + " current hand is" + this.handToString());
             this.output.add(currentHand);
+            }
         }
     }
-
-
-
 
     @Override
     public void run()
@@ -238,11 +237,9 @@ public class Player implements Runnable {
             PrintWriter out1 = new PrintWriter(new FileWriter(filePlayer));
             PrintWriter out2 = new PrintWriter(new FileWriter(fileDeck));
 
-            for (int j = 0; j < this.getOutputSize(); j++)
-            {
+            for (int j = 0; j < this.getOutputSize(); j++) {
                 out1.println(this.output.get(j));
             }
-
 
             String deckOutput = CardGame.decksList.get((this.id-1)).printHand();
             out2.println(deckOutput);
