@@ -177,8 +177,8 @@ public class Player implements Runnable {
         else
         {
             if (this.playerRounds != 0) {
-            String currentHand = ("player " + this.id + " current hand is" + this.handToString());
-            this.output.add(currentHand);
+                String currentHand = ("player " + this.id + " current hand is" + this.handToString());
+                this.output.add(currentHand);
             }
         }
     }
