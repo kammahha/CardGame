@@ -1,5 +1,6 @@
 package cardgame;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,8 +12,13 @@ public class Player implements Runnable {
     ArrayList<Card> hand = new ArrayList<>();
     ArrayList<String> output = new ArrayList<>();
     int playerRounds = 0;
+    boolean dirCreated = false;
 
 
+    /**
+     * Constructor for creating players
+     * @param id Player has its own id
+     */
     Player(int id) {
         this.id = id;
     }
@@ -61,15 +67,22 @@ public class Player implements Runnable {
     }
 
     /**
-     *
-     * @param deck
-     * @return
+     * This method takes the deck as a parameter and calls a function that will
+     * take a card from that deck
+     * @param deck The deck that the player takes a card from
+     * @return The card that is drawn from the deck by a player
      */
     public synchronized Card drawCard(Deck deck)
     {
         return deck.cardTaken();
     }
 
+    /**
+     * This method takes the discarded card from the player and calls the cardAdded()
+     * method
+     * @param card Gets card from the player
+     * @param deck Gets the deck that needs to add the card
+     */
 
 
     public synchronized void discardCard(Card card, Deck deck)
@@ -89,8 +102,6 @@ public class Player implements Runnable {
             CardGame.rounds = this.playerRounds;
         }
     }
-
-
 
     /**
      *  This method does the action of picking and discarding a card.
@@ -145,7 +156,11 @@ public class Player implements Runnable {
         }
     }
 
-
+    /**
+     *  Once checkHand checks that a player has won, it calls this function which
+     *  adds to the output ArrayList and makes endGame true so that other players
+     *  are aware that someone has won.
+     */
 
     public synchronized void whoWonCheck()
     {
@@ -163,9 +178,8 @@ public class Player implements Runnable {
      * This method checks the hand when the cards are distributed and after the joint
      * action of picking and discarding a card takes place to see if the player won.
      * It then adds the current hand to output array if the cards aren't equal to each
-     * other.
+     * other or calls the whoWonCheck method if a player wins
      */
-
 
 
     public synchronized void checkHand()
@@ -176,6 +190,7 @@ public class Player implements Runnable {
         }
         else
         {
+            // Doesn't print current hand if a player wins with initial hand
             if (this.playerRounds != 0) {
                 String currentHand = ("player " + this.id + " current hand is" + this.handToString());
                 this.output.add(currentHand);
@@ -183,17 +198,32 @@ public class Player implements Runnable {
         }
     }
 
+    public void makeDir(){
+
+    }
+    /**
+     * This method starts the game and continues the game until endGame is true. It checks
+     * the mostRounds() to make all players end with the same number of rounds. The game is
+     * continued until all players each mostRounds(). Final strings are then added to the
+     * output ArrayList. Output files are created for each player and deck. PrintWriter is used
+     * to write to the files from the output ArrayList.
+     */
+
     @Override
     public void run()
     {
+        // Checks for initial winning hand
         checkHand();
+
+        // Game starts
         while (!CardGame.endGame)
         {
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
+            // Compares rounds each time a thread does myAction
             mostRounds();
         }
 
-
+        // Sleeps to allow mostRounds() to be updated for all threads
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -201,13 +231,14 @@ public class Player implements Runnable {
         }
 
 
+        //Plays the game until all player reach same number of rounds
         while (this.playerRounds < CardGame.rounds)
         {
             myAction(CardGame.decksList.get(((this.id-1) % CardGame.nofPlayers)), CardGame.decksList.get((this.id) % CardGame.nofPlayers));
             mostRounds();
         }
 
-
+        // Adds to output ArrayList
         if (CardGame.whoWon != id)
         {
             this.output.add(("player " + CardGame.whoWon + " has informed player " + this.id + " that player " + CardGame.whoWon + " has won"));
@@ -221,7 +252,7 @@ public class Player implements Runnable {
             System.out.println("player " + CardGame.whoWon + " has won");
         }
 
-
+        // Sleeps to ensure all threads are finished and decks have 4 cards at the end
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -229,18 +260,37 @@ public class Player implements Runnable {
         }
 
 
-        String filePlayer = "player" + this.id + "_output.txt";
-        String fileDeck = "deck" + this.id + "_output.txt";
+        String filePlayer = "Output Files/player" + this.id + "_output.txt";
+        String fileDeck = "Output Files/deck" + this.id + "_output.txt";
 
 
+
+
+        if(!dirCreated) {
+            File dir = new File("Output Files");
+            if (!dir.exists()) {
+                dir.mkdir();
+            } else {
+                String[] files = dir.list();
+                for (String f : files) {
+                    File currentfile = new File(dir.getPath(), f);
+                    currentfile.delete();
+                }
+                dir.mkdir();
+            }
+            dirCreated = true;
+        }
+        // Tries to creates output files and catches if an exception is reached
         try {
             PrintWriter out1 = new PrintWriter(new FileWriter(filePlayer));
             PrintWriter out2 = new PrintWriter(new FileWriter(fileDeck));
-
-            for (int j = 0; j < this.getOutputSize(); j++) {
+            // Iterates through output ArrayList for each line and adds to file
+            for (int j = 0; j < this.getOutputSize(); j++)
+            {
                 out1.println(this.output.get(j));
             }
 
+            // Adds to deck output file
             String deckOutput = CardGame.decksList.get((this.id-1)).printHand();
             out2.println(deckOutput);
 

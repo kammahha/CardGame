@@ -18,7 +18,7 @@ public class CardTest {
     }
 
     @Test
-    public void cardValue() {
+    public void testCardValue() {
         Card card = new Card(1);
         Assert.assertEquals(1, card.value);
     }

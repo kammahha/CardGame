@@ -52,8 +52,8 @@ public class Deck {
     }
 
     /**
-     * Removes a card from the deck from
-     * @return The deck after
+     * Removes the first card from the deck hand
+     * @return The card that has been removed
      */
 
     synchronized Card cardTaken() {

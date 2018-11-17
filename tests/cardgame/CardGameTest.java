@@ -15,8 +15,9 @@ import static org.junit.Assert.*;
 
 public class CardGameTest {
 
+
     @Test
-    public void creatingPlayersDecks() {
+    public void testCreatingPlayersDecks() {
         CardGame.creatingPlayersDecks(2);
 
         // checks if there is correct number of players created
@@ -32,6 +33,10 @@ public class CardGameTest {
         assertEquals(1, CardGame.decksList.get(0).id);
     }
 
+    /**
+     *  Adds card values to a cards ArrayList to check if the initial hand when cards
+     *  are distributed is what it should be for both players and decks
+     */
     @Test
     public void testCardDistribution() {
         Card card1 = new Card(1);
@@ -54,6 +59,9 @@ public class CardGameTest {
         assertEquals("deck 1 contents: 2 1 2 1", CardGame.decksList.get(0).printHand());
     }
 
+    /**
+     *
+     */
 
     @Test
     public void testGetPathTrue() {
