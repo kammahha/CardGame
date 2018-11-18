@@ -12,7 +12,7 @@ public class Player implements Runnable {
     ArrayList<Card> hand = new ArrayList<>();
     ArrayList<String> output = new ArrayList<>();
     int playerRounds = 0;
-//    boolean dirCreated = false;
+    boolean dirCreated = false;
 
 
     /**
@@ -197,10 +197,6 @@ public class Player implements Runnable {
             }
         }
     }
-//
-//    public void makeDir(){
-//
-//    }
 
 
     /**
@@ -255,33 +251,38 @@ public class Player implements Runnable {
         }
 
         // Sleeps to ensure all threads are finished and decks have 4 cards at the end
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(100);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 
         String filePlayer = "Output Files/player" + this.id + "_output.txt";
         String fileDeck = "Output Files/deck" + this.id + "_output.txt";
 
 
+        if(!dirCreated) {
+            File dir = new File("Output Files");
+            if (!dir.exists()) {
+                dir.mkdir();
+            } else {
+                String[] files = dir.list();
+                for (String f : files) {
+                    File currentFile = new File(dir.getPath(), f);
+                    currentFile.delete();
+                }
+                dir.mkdir();
+            }
+            dirCreated = true;
+        }
 
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-//        if(!dirCreated) {
-//            File dir = new File("Output Files");
-//            if (!dir.exists()) {
-//                dir.mkdir();
-//            } else {
-//                String[] files = dir.list();
-//                for (String f : files) {
-//                    File currentfile = new File(dir.getPath(), f);
-//                    currentfile.delete();
-//                }
-//                dir.mkdir();
-//            }
-//            dirCreated = true;
-//        }
         // Tries to creates output files and catches if an exception is reached
         try {
             PrintWriter out1 = new PrintWriter(new FileWriter(filePlayer));

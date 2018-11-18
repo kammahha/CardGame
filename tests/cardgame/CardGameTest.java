@@ -29,6 +29,7 @@ public class CardGameTest {
         CardGame.nofPlayers = 0;
     }
 
+
     @Test
     public void testCreatingPlayersCorrectNo() {
 
@@ -85,7 +86,8 @@ public class CardGameTest {
     }
 
     /**
-     *
+     * Tests each of the errors by using an incorrect pack and tests
+     * the right pack to ensure an error is not triggered by it
      */
 
     @Test
@@ -123,6 +125,10 @@ public class CardGameTest {
         assertFalse(CardGame.getPath("kcap.txt"));
     }
 
+    /**
+     * Checks that it returns correctly depending on whether
+     * a positive or negative number is entered
+     */
     @Test
     public void testGetNoOfPlayersCorrect() {
         // when the number of players

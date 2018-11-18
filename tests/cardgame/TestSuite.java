@@ -8,7 +8,7 @@ package cardgame;
 
 /**
  *
- * @author us
+ * @author
  */
 
 import org.junit.runner.RunWith;
