@@ -59,9 +59,8 @@ public class CardGame {
     {
         int input = 0;
         try {
-//            input = in.nextInt();
-            input = 3;
-        } catch (InputMismatchException e) {}
+            input = in.nextInt();
+        } catch (InputMismatchException ignored) {}
         return input;
     }
 
@@ -71,8 +70,7 @@ public class CardGame {
      */
     static String getStringInput()
     {
-//        String input = in.next();
-        String input = "pack.txt";
+        String input = in.next();
         return input;
     }
 
