@@ -60,7 +60,7 @@ public class CardGame {
         int input = 0;
         try {
 //            input = in.nextInt();
-            input = 4;
+            input = 3;
         } catch (InputMismatchException e) {}
         return input;
     }

@@ -127,7 +127,7 @@ public class Player implements Runnable {
                 card that isn't equalling ID since that will be the oldest card
                 in the hand
              */
-            boolean done = false; // k - for cases like 5 ones, so if no cards will get removed in the for loop, the 'if' will run
+            boolean done = false;
 
             for (int i = 0; i < hand.size(); i++) {
 
@@ -143,6 +143,10 @@ public class Player implements Runnable {
                 }
             }
 
+            /*
+                Situation where picked up card is also the preferred number, the player
+                holds onto all 5 card. This ensures that teh card is removed
+             */
             if (!done)
             {
                 Card removeCard = hand.remove(hand.size()-1);
@@ -250,18 +254,16 @@ public class Player implements Runnable {
             System.out.println("player " + CardGame.whoWon + " has won");
         }
 
-        // Sleeps to ensure all threads are finished and decks have 4 cards at the end
-//        try {
-//            Thread.sleep(100);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
 
         String filePlayer = "Output Files/player" + this.id + "_output.txt";
         String fileDeck = "Output Files/deck" + this.id + "_output.txt";
 
 
+        /*
+            A directory is created so that new files are created each time instead of
+            overwriting them
+         */
         if(!dirCreated) {
             File dir = new File("Output Files");
             if (!dir.exists()) {
@@ -277,6 +279,7 @@ public class Player implements Runnable {
             dirCreated = true;
         }
 
+        // Sleeps to ensure all threads are finished and decks have 4 cards at the end
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {

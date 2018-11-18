@@ -16,6 +16,9 @@ public class CardTest {
         card = new Card(1);
     }
 
+    /**
+     * Checks if the value is assigned
+     */
     @Test
     public void testCardValue() {
         Assert.assertEquals(1, card.value);

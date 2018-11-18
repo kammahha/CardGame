@@ -15,6 +15,9 @@ public class DeckTest {
     Card card1;
     ArrayList<Card> cardArray;
 
+    /**
+     * These are created before tests are started
+     */
     @Before
     public void setUp() {
         deck = new Deck(1);

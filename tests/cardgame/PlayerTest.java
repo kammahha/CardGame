@@ -27,8 +27,12 @@ public class PlayerTest {
 
     // before rarther than BeforeClass because we want it ti be executed
     // before each test and not once before all tests REPORT!!!
+
+    /**
+     * Creates all of these before tests are started
+     */
     @Before
-    public void setUpClass() throws Exception{
+    public void setUpClass() {
         player = new Player(1);
         card1 = new Card(1);
         card2 = new Card(2);
@@ -43,8 +47,11 @@ public class PlayerTest {
         System.setOut(new PrintStream(outContent));
     }
 
+    /**
+     * Resets the variables after tests have finished
+     */
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         // Reset the System.out
         System.setOut(originalOut);
         CardGame.playersList.clear();
@@ -52,6 +59,9 @@ public class PlayerTest {
         player.playerRounds = 0;
     }
 
+    /**
+     * Checks if player exists
+     */
     @Test
     public void testPlayer() {
         Assert.assertNotNull(player);
@@ -194,7 +204,8 @@ public class PlayerTest {
     }
 
     /**
-     *
+     * It tests the situation where 5th card is also the preferred
+     * card
      */
     @Test
     public void testMyAction5sameCards() {
@@ -259,6 +270,10 @@ public class PlayerTest {
         Assert.assertNotEquals(1, CardGame.whoWon);
     }
 
+    /**
+     * Tests to see if the correct output is being given and
+     * the right number of rounds are played.
+     */
     @Test
     public void testRunWinning(){
         CardGame.nofPlayers = 1;
@@ -280,6 +295,10 @@ public class PlayerTest {
         assertEquals(1, CardGame.whoWon);
     }
 
+    /**
+     * Tests the output ArrayList to see if it produces a correct size
+     * after these actions are done
+     */
     @Test
     public void testRunNotWinning(){
         CardGame.nofPlayers = 2;

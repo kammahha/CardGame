@@ -7,7 +7,10 @@ public class Deck {
     int id;
     ArrayList<Card> dHand = new ArrayList<Card>();
 
-
+    /**
+     * Assigns id to the deck
+     * @param id identifier for the decks
+     */
     Deck(int id) {
         this.id = id;
     }

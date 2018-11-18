@@ -15,11 +15,17 @@ import static org.junit.Assert.*;
 
 public class CardGameTest {
 
+    /**
+     * Sets up the number of players before the tests are started
+     */
     @Before
     public void setUp() {
         CardGame.nofPlayers = 4;
     }
 
+    /**
+     * Changes value back to their original after tests are finished
+     */
     @After
     public void tearDown() {
         CardGame.creatingPlayersDecks(2);
@@ -29,7 +35,10 @@ public class CardGameTest {
         CardGame.nofPlayers = 0;
     }
 
-
+    /**
+     * Checks if the correct number of players and decks are created
+     * and correct id's for them are set
+     */
     @Test
     public void testCreatingPlayersCorrectNo() {
 
