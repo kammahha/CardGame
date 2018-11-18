@@ -12,7 +12,7 @@ public class Player implements Runnable {
     ArrayList<Card> hand = new ArrayList<>();
     ArrayList<String> output = new ArrayList<>();
     int playerRounds = 0;
-    boolean dirCreated = false;
+//    boolean dirCreated = false;
 
 
     /**
@@ -197,10 +197,10 @@ public class Player implements Runnable {
             }
         }
     }
-
-    public void makeDir(){
-
-    }
+//
+//    public void makeDir(){
+//
+//    }
 
 
     /**
@@ -268,20 +268,20 @@ public class Player implements Runnable {
 
 
 
-        if(!dirCreated) {
-            File dir = new File("Output Files");
-            if (!dir.exists()) {
-                dir.mkdir();
-            } else {
-                String[] files = dir.list();
-                for (String f : files) {
-                    File currentfile = new File(dir.getPath(), f);
-                    currentfile.delete();
-                }
-                dir.mkdir();
-            }
-            dirCreated = true;
-        }
+//        if(!dirCreated) {
+//            File dir = new File("Output Files");
+//            if (!dir.exists()) {
+//                dir.mkdir();
+//            } else {
+//                String[] files = dir.list();
+//                for (String f : files) {
+//                    File currentfile = new File(dir.getPath(), f);
+//                    currentfile.delete();
+//                }
+//                dir.mkdir();
+//            }
+//            dirCreated = true;
+//        }
         // Tries to creates output files and catches if an exception is reached
         try {
             PrintWriter out1 = new PrintWriter(new FileWriter(filePlayer));

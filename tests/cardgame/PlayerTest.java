@@ -4,7 +4,11 @@ import org.junit.*;
 
 import org.junit.Test;
 
+import javax.print.attribute.standard.JobOriginatingUserName;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -18,9 +22,11 @@ public class PlayerTest {
     private Deck deck1;
     private Deck deck2;
 
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    private final PrintStream originalOut = System.out;
 
     // before rarther than BeforeClass because we want it ti be executed
-    // before each test and not once before all tests
+    // before each test and not once before all tests REPORT!!!
     @Before
     public void setUpClass() throws Exception{
         player = new Player(1);
@@ -30,9 +36,20 @@ public class PlayerTest {
         cardArray = new ArrayList<>();
         deck1 = new Deck(1);
         deck2 = new Deck(2);
-        player.playerRounds = 3;
         CardGame.whoWon = 0;
         CardGame.endGame = false;
+
+        // After this all System.out.println() statements will come to ourContent stream.
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        // Reset the System.out
+        System.setOut(originalOut);
+        CardGame.playersList.clear();
+        CardGame.decksList.clear();
+        player.playerRounds = 0;
     }
 
     @Test
@@ -113,6 +130,7 @@ public class PlayerTest {
      */
     @Test
     public void testMostRounds5() {
+        player.playerRounds = 3;
         CardGame.rounds = 5;
         player.mostRounds();
 
@@ -122,6 +140,7 @@ public class PlayerTest {
 
     @Test
     public void testMostRounds3() {
+        player.playerRounds = 3;
         CardGame.rounds = 1;
         player.mostRounds();
 
@@ -236,7 +255,52 @@ public class PlayerTest {
     public void testCheckHandNotWon() {
         player.setInitialHand(card1, card1, card2, card2);
         player.checkHand();
-        // Shouldn't give id 2
+        // Shouldn't give id 1
         Assert.assertNotEquals(1, CardGame.whoWon);
+    }
+
+    @Test
+    public void testRunWinning(){
+        CardGame.nofPlayers = 1;
+        CardGame.rounds = 0;
+
+        player.setInitialHand(card1, card1, card1, card2);
+        deck1.setInitialHand(card1, card1, card1, card1);
+
+        CardGame.playersList.add(player);
+        CardGame.decksList.add(deck1);
+
+        player.run();
+
+        assertEquals("player 1 has won" + System.getProperty("line.separator"), outContent.toString());
+
+        assertEquals(1, player.playerRounds);
+        assertEquals(1, CardGame.rounds);
+        assertTrue(CardGame.endGame);
+        assertEquals(1, CardGame.whoWon);
+    }
+
+    @Test
+    public void testRunNotWinning(){
+        CardGame.nofPlayers = 2;
+        CardGame.rounds = 1;
+        CardGame.endGame = true;
+        CardGame.whoWon = 1;
+        Player player2 = new Player(2);
+
+        player.setInitialHand(card2, card1, card1, card1);
+        deck1.setInitialHand(card1, card1, card2, card2);
+        player2.setInitialHand(card1, card1, card2, card2);
+        deck2.setInitialHand(card2, card1, card2, card2);
+
+        CardGame.playersList.add(player);
+        CardGame.decksList.add(deck1);
+        CardGame.playersList.add(player2);
+        CardGame.decksList.add(deck2);
+
+        player2.run();
+
+        // 7 because initial hand, draw, discard, current, informed, exits, final
+        assertEquals(7, player2.getOutputSize());
     }
 }
