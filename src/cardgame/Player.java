@@ -201,6 +201,8 @@ public class Player implements Runnable {
     public void makeDir(){
 
     }
+
+
     /**
      * This method starts the game and continues the game until endGame is true. It checks
      * the mostRounds() to make all players end with the same number of rounds. The game is

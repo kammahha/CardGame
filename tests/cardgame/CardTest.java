@@ -9,17 +9,15 @@ import static org.junit.Assert.*;
 
 public class CardTest {
 
-    @Before
-    public void setUp() throws Exception {
-    }
+    Card card;
 
-    @After
-    public void tearDown() throws Exception {
+    @Before
+    public void setUp() {
+        card = new Card(1);
     }
 
     @Test
     public void testCardValue() {
-        Card card = new Card(1);
         Assert.assertEquals(1, card.value);
     }
 }

@@ -11,37 +11,36 @@ import static org.junit.Assert.*;
 
 public class DeckTest {
 
-    @Before
-    public void setUp() throws Exception {
-    }
+    Deck deck;
+    Card card1;
+    ArrayList<Card> cardArray;
 
-    @After
-    public void tearDown() throws Exception {
+    @Before
+    public void setUp() {
+        deck = new Deck(1);
+        card1 = new Card(2);
+        cardArray = new ArrayList<>();
     }
 
     @Test
     public void testDeck() {
-        Deck deck = new Deck(1);
         Assert.assertNotNull(deck);
     }
 
-    Deck deck = new Deck(1);
-    Card card = new Card(2);
-
     @Test
     public void testSetInitialHand() {
-        deck.setInitialHand(card, card, card, card);
-        ArrayList<Card> cardArray = new ArrayList<>();
-        cardArray.add(card);
-        cardArray.add(card);
-        cardArray.add(card);
-        cardArray.add(card);
+        deck.setInitialHand(card1, card1, card1, card1);
+
+        cardArray.add(card1);
+        cardArray.add(card1);
+        cardArray.add(card1);
+        cardArray.add(card1);
         Assert.assertEquals(cardArray, deck.dHand);
     }
 
     @Test
     public void testGetHand() {
-        deck.setInitialHand(card, card, card, card);
+        deck.setInitialHand(card1, card1, card1, card1);
         Assert.assertEquals("deck 1 contents: 2 2 2 2", deck.printHand());
     }
 
@@ -54,7 +53,7 @@ public class DeckTest {
 
     @Test
     public void testCardTaken() {
-        deck.setInitialHand(card, card, card, card);
+        deck.setInitialHand(card1, card1, card1, card1);
         Card removedCard = deck.cardTaken();
         Assert.assertEquals(2, removedCard.value);
         Assert.assertEquals("deck 1 contents: 2 2 2", deck.printHand());

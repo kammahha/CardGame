@@ -6,7 +6,7 @@ public class CardGame {
 
     // Creating our global variables
     static int nofPlayers;
-    private static ArrayList<Card> cards = new ArrayList<>();
+    static ArrayList<Card> cards = new ArrayList<>();
     static ArrayList<Player> playersList = new ArrayList<>();
     static ArrayList<Deck> decksList = new ArrayList<>();
     static boolean endGame = false;
@@ -104,7 +104,6 @@ public class CardGame {
      */
 
     static boolean getPath(String pathRoute){
-        cards.clear();
         int nofCards = 8 * nofPlayers, value;
         boolean isFile = true, negativeNumber = false, incorrectValue = false;
 
